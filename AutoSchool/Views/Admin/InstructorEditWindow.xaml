@@ -1,0 +1,107 @@
+﻿<Window x:Class="AutoSchool.Views.Admin.InstructorEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Инструктор" Height="520" Width="620"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+            <Border Width="120" Height="120" CornerRadius="8" BorderBrush="#DDD" BorderThickness="1" ClipToBounds="True">
+                <Image x:Name="PhotoPreview" Stretch="UniformToFill"/>
+            </Border>
+            <StackPanel Margin="12,0,0,0">
+                <Button Content="Загрузить фото" Width="140" Height="32" Margin="0,0,0,6" Click="LoadPhoto_Click"/>
+                <Button Content="Удалить фото" Width="140" Height="32" Click="ClearPhoto_Click"/>
+                <TextBlock Foreground="Gray" Margin="0,10,0,0" Text="JPG/PNG, хранится в БД"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Margin="0,0,8,0">
+                <TextBlock Text="Имя"/>
+                <TextBox x:Name="FirstNameBox" Height="28"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                <TextBlock Text="Фамилия"/>
+                <TextBox x:Name="LastNameBox" Height="28"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Margin="0,0,8,0">
+                <TextBlock Text="Телефон"/>
+                <TextBox x:Name="PhoneBox" Height="28"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                <TextBlock Text="Email"/>
+                <TextBox x:Name="EmailBox" Height="28"/>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Grid.Row="3" Margin="0,12,0,0" Text="Автомобиль/мотоцикл"/>
+
+        <Grid Grid.Row="4" Margin="0,6,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Margin="0,0,8,0">
+                <TextBlock Text="Марка"/>
+                <TextBox x:Name="BrandBox" Height="28"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                <TextBlock Text="Модель"/>
+                <TextBox x:Name="ModelBox" Height="28"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="5" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Margin="0,0,8,0">
+                <TextBlock Text="КПП"/>
+                <ComboBox x:Name="TransmissionBox" Height="28">
+                    <ComboBoxItem Tag="Manual" Content="Механика"/>
+                    <ComboBoxItem Tag="Automatic" Content="Автомат"/>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                <TextBlock Text="Категория (A/B/C...)"/>
+                <TextBox x:Name="CategoryBox" Height="28" Text="B"/>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,18,0,0">
+            <Button Content="OK" Width="110" Height="35" Margin="5" Click="Ok_Click"/>
+            <Button Content="Отмена" Width="110" Height="35" Margin="5" Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

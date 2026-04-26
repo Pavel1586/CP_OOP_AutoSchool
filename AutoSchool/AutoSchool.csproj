@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+		<ApplicationIcon>Assets\app.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<!-- Убираем background.png из None/Resource, чтобы не было конфликтов -->
+	<ItemGroup>
+		<None Remove="Assets\background.png" />
+		<None Remove="Assets\background2.png" />
+		<None Remove="Assets\custom1.cur" />
+	</ItemGroup>
+
+	<!-- Картинки/курсоры: Resource, чтобы работали pack://application:,,, -->
+	<ItemGroup>
+		<Resource Include="Assets\background.png" />
+		<Resource Include="Assets\background2.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\custom1.cur" />
+		<Resource Include="Assets\app.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+</Project>

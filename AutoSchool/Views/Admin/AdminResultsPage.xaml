@@ -1,0 +1,92 @@
+﻿<Page x:Class="AutoSchool.Views.Admin.AdminResultsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Результаты">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Фильтры -->
+        <Border BorderBrush="#DDD" BorderThickness="1" Padding="10" CornerRadius="6">
+            <WrapPanel VerticalAlignment="Center" ItemHeight="60">
+
+                <StackPanel Width="360" Margin="0,0,10,0">
+                    <TextBlock Text="Поиск (email/ФИО/билет)" Foreground="Gray"/>
+                    <TextBox Height="32" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <StackPanel Width="200" Margin="0,0,10,0">
+                    <TextBlock Text="Билет" Foreground="Gray"/>
+                    <ComboBox Height="32"
+                              ItemsSource="{Binding Tickets}"
+                              SelectedItem="{Binding SelectedTicket}"
+                              DisplayMemberPath="Title"/>
+                </StackPanel>
+
+                <StackPanel Width="150" Margin="0,0,10,0">
+                    <TextBlock Text="Статус" Foreground="Gray"/>
+                    <ComboBox Height="32"
+                              ItemsSource="{Binding Statuses}"
+                              SelectedItem="{Binding SelectedStatus}"/>
+                </StackPanel>
+
+                <StackPanel Width="320" Margin="0,0,10,0">
+                    <TextBlock Text="Период" Foreground="Gray"/>
+                    <WrapPanel>
+                        <DatePicker Width="145" SelectedDate="{Binding DateFrom}"/>
+                        <TextBlock Text="—" VerticalAlignment="Center" Margin="6,0"/>
+                        <DatePicker Width="145" SelectedDate="{Binding DateTo}"/>
+                    </WrapPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                    <Button Content="Применить" MinWidth="120" Height="32" Margin="0,0,8,0"
+                            Command="{Binding RefreshCommand}"/>
+                    <Button Content="Экспорт CSV" MinWidth="120" Height="32"
+                            Command="{Binding ExportCsvCommand}"/>
+                </StackPanel>
+
+            </WrapPanel>
+        </Border>
+
+        <!-- Таблица -->
+        <DataGrid Grid.Row="1"
+                  Margin="0,10,0,10"
+                  ItemsSource="{Binding Results}"
+                  SelectedItem="{Binding SelectedResult}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  CellStyle="{StaticResource WrapCellStyle}"
+                  ColumnHeaderStyle="{StaticResource WrapHeaderStyle}"
+                  RowHeight="NaN"
+                  MinRowHeight="28">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="70"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding PassedAt}" Width="160"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding UserEmail}" Width="220"/>
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding UserName}" Width="200"/>
+                <DataGridTextColumn Header="Билет" Binding="{Binding TicketTitle}" Width="140"/>
+                <DataGridTextColumn Header="Верно" Binding="{Binding Correct}" Width="80"/>
+                <DataGridTextColumn Header="Ошибок" Binding="{Binding Wrong}" Width="80"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="110"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопки -->
+        <WrapPanel Grid.Row="2"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,0"
+                   ItemHeight="35">
+            <Button Content="Открыть результат" MinWidth="170" Height="35" Margin="5" Command="{Binding OpenResultCommand}"/>
+            <Button Content="Открыть разбор" MinWidth="170" Height="35" Margin="5" Command="{Binding OpenReviewCommand}"/>
+            <Button Content="Назад" MinWidth="120" Height="35" Margin="5" Command="{Binding BackCommand}"/>
+        </WrapPanel>
+    </Grid>
+</Page>

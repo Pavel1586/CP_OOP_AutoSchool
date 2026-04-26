@@ -1,0 +1,48 @@
+﻿<Window x:Class="AutoSchool.Views.TicketSelectionByTopicWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:AutoSchool.ViewModels"
+        Title="Билеты по теме" Height="420" Width="700"
+        WindowStartupLocation="CenterScreen">
+	
+	<!-- ФОН ОКНА -->
+	<Window.Background>
+		<ImageBrush ImageSource="/Assets/background.png"
+                    Stretch="Fill"
+                    AlignmentX="Center"
+                    AlignmentY="Center"/>
+	</Window.Background>
+	
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding HeaderText}" FontSize="18" FontWeight="Bold"/>
+
+        <DataGrid Grid.Row="1" Margin="0,10,0,10"
+                  ItemsSource="{Binding Tickets}"
+                  SelectedItem="{Binding SelectedTicket}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
+                <DataGridTextColumn Header="Билет" Binding="{Binding Title}" Width="*"/>
+                <DataGridTextColumn Header="Вопросов по теме" Binding="{Binding TopicQuestionsCount}" Width="150"/>
+                <DataGridTextColumn Header="Всего вопросов" Binding="{Binding TotalQuestionsCount}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Начать тест" Width="140" Height="35" Margin="5"
+                    Command="{Binding OpenTicketCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+            <Button Content="Назад" Width="120" Height="35" Margin="5"
+                    Command="{Binding BackCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </StackPanel>
+    </Grid>
+</Window>

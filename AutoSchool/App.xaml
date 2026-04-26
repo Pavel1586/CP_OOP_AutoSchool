@@ -1,0 +1,33 @@
+﻿<Application x:Class="AutoSchool.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:infra="clr-namespace:AutoSchool.Infrastructure"
+             StartupUri="Views/LoginWindow.xaml">
+
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <!-- Глобальный фон приложения -->
+            <ImageBrush x:Key="AppBackgroundBrush"
+                        ImageSource="/Assets/background.png"
+                        AlignmentX="Center"
+                        AlignmentY="Center"
+                        Stretch="Fill"
+                        Opacity="1"/>
+
+            <!-- Курсор -->
+            <Cursor x:Key="AppCursor">pack://application:,,,/Assets/custom1.cur</Cursor>
+
+            <infra:ByteArrayToImageSourceConverter x:Key="BytesToImage" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <!-- если Win10.xaml нужен — оставляй -->
+                <ResourceDictionary Source="Themes/Win10.xaml" />
+
+                <!-- ТЕМА ПО УМОЛЧАНИЮ -->
+                <ResourceDictionary Source="Themes/LightTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,84 @@
+﻿ <Window x:Class="AutoSchool.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:AutoSchool.ViewModels"
+        Title="Вход"
+        Height="430"
+        Width="460"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Window.DataContext>
+        <vm:LoginViewModel />
+    </Window.DataContext>
+
+    <Grid Style="{StaticResource AppRootGridStyle}" Margin="0,0,0,-5">
+
+        <!-- ФОН -->
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/background.png"
+                        Stretch="Fill"/>
+        </Grid.Background>
+
+        <!-- КАРТОЧКА -->
+        <Border Style="{StaticResource AppCardStyle}"
+                Width="380"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+            <StackPanel>
+                <TextBlock Text="Вход в систему"
+                           Style="{StaticResource AppTitleTextStyle}" />
+
+                <StackPanel Margin="0,0,0,12">
+                    <TextBlock Text="Email"
+                               Style="{StaticResource AppFormLabelStyle}" />
+
+                    <TextBox Height="34"
+                             Style="{StaticResource AppValidationTextBoxStyle}"
+                             Tag="{Binding EmailError}"
+                             Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Text="{Binding EmailError}"
+                               Style="{StaticResource AppErrorTextStyle}" />
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,12">
+                    <TextBlock Text="Пароль"
+                               Style="{StaticResource AppFormLabelStyle}" />
+
+                    <PasswordBox x:Name="PasswordBox"
+                                 Height="34"
+                                 Style="{StaticResource AppValidationPasswordBoxStyle}"
+                                 Tag="{Binding PasswordError}" />
+
+                    <TextBlock Text="{Binding PasswordError}"
+                               Style="{StaticResource AppErrorTextStyle}" />
+                </StackPanel>
+
+                <TextBlock Text="{Binding AuthError}"
+                           Style="{StaticResource AppErrorTextStyle}"
+                           Margin="0,0,0,10"
+                           TextWrapping="Wrap" />
+
+                <StackPanel Style="{StaticResource AppBottomButtonsStyle}">
+                    <Button Content="Войти"
+                            Style="{StaticResource Win10PrimaryButton}"
+                            Width="120"
+                            Height="36"
+                            Margin="5"
+                            Command="{Binding LoginCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+
+                    <Button Content="Регистрация"
+                            Width="140"
+                            Height="36"
+                            Margin="5"
+                            Command="{Binding OpenRegisterCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
+

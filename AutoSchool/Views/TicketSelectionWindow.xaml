@@ -1,0 +1,61 @@
+﻿<Window x:Class="AutoSchool.Views.TicketSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:AutoSchool.ViewModels"
+        Title="Выбор билета"
+        Height="400"
+        Width="500"
+        WindowStartupLocation="CenterScreen">
+    
+    <!-- ФОН ОКНА -->
+    <Window.Background>
+        <ImageBrush ImageSource="/Assets/background.png"
+                    Stretch="Fill"
+                    AlignmentX="Center"
+                    AlignmentY="Center"/>
+    </Window.Background>
+    
+    <Window.DataContext>
+        <vm:TicketSelectionViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Выберите билет"
+                   FontSize="22"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,20"/>
+
+        <ListBox Grid.Row="1"
+                 ItemsSource="{Binding Tickets}"
+                 SelectedItem="{Binding SelectedTicket}"
+                 DisplayMemberPath="Title"
+                 Height="220"/>
+
+		<StackPanel Grid.Row="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            Margin="0,20,0,0">
+
+			<Button Content="Открыть"
+					Width="120"
+					Height="35"
+					Margin="5"
+					Command="{Binding OpenTicketCommand}"
+					CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+
+			<Button Content="Назад"
+					Width="120"
+					Height="35"
+					Margin="5"
+					Command="{Binding BackCommand}"
+					CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+		</StackPanel>
+    </Grid>
+</Window>

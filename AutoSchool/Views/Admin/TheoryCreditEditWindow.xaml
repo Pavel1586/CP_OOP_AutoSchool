@@ -1,0 +1,71 @@
+﻿<Window x:Class="AutoSchool.Views.Admin.TheoryCreditEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Зачёт по теории" Height="420" Width="520"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Дата" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,10">
+            <DatePicker x:Name="DatePicker" Width="160"/>
+            <TextBlock Text="Время (HH:mm)" VerticalAlignment="Center" Margin="10,0,6,0"/>
+            <TextBox x:Name="TimeBox" Width="80" Text="18:00"/>
+        </StackPanel>
+
+        <TextBlock Grid.Row="2" Text="Тема" />
+        <ComboBox Grid.Row="3" x:Name="TopicBox" Height="28" Margin="0,5,0,10"
+                  DisplayMemberPath="Name" SelectedValuePath="Id"/>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Margin="0,0,8,0">
+                <TextBlock Text="Длительность (мин)"/>
+                <TextBox x:Name="DurationBox" Height="28" Text="60"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                <TextBlock Text="Кабинет"/>
+                <TextBox x:Name="RoomBox" Height="28" Text="Каб. 1"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="5" Margin="0,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Статус"/>
+            <ComboBox x:Name="StatusBox" Grid.Row="1" Height="28" Margin="0,5,0,10">
+                <ComboBoxItem Tag="Planned" Content="Planned"/>
+                <ComboBoxItem Tag="Passed" Content="Passed"/>
+                <ComboBoxItem Tag="Failed" Content="Failed"/>
+                <ComboBoxItem Tag="Missed" Content="Missed"/>
+            </ComboBox>
+
+            <TextBlock Grid.Row="2" Text="Примечание"/>
+            <TextBox x:Name="NotesBox" Grid.Row="3" Height="70" Margin="0,5,0,0"
+                     TextWrapping="Wrap" AcceptsReturn="True"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,90,0,0">
+                <Button Content="OK" Width="110" Height="35" Margin="5" Click="Ok_Click"/>
+                <Button Content="Отмена" Width="110" Height="35" Margin="5" Click="Cancel_Click"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
