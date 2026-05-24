@@ -19,9 +19,8 @@ public class TestReviewViewModel : BaseViewModel
         public string Explanation { get; set; } = "";
     }
 
-    public string Title { get; }
+    public string Title { get; private set; } = "";
     public ObservableCollection<ReviewItem> Items { get; } = new();
-
     public ICommand BackCommand { get; }
 
     private readonly int _testResultId;
@@ -29,21 +28,31 @@ public class TestReviewViewModel : BaseViewModel
     public TestReviewViewModel(int testResultId)
     {
         _testResultId = testResultId;
+        BackCommand = new RelayCommand(Back);
+
+        LocalizationManager.LanguageChanged += (_, __) => Load();
+        Load();
+    }
+
+    private void Load()
+    {
+        Items.Clear();
 
         using var context = new ApplicationDbContext();
         var result = context.TestResults
             .Include(r => r.Ticket)
             .Include(r => r.Answers).ThenInclude(a => a.Question).ThenInclude(q => q.AnswerOptions)
             .Include(r => r.Answers).ThenInclude(a => a.SelectedOption)
-            .First(r => r.Id == testResultId);
+            .First(r => r.Id == _testResultId);
 
-        Title = $"Разбор: {result.Ticket?.Title}";
+        Title = Loc.F("Str_ReviewTitleFormat", result.Ticket?.Title ?? "");
+        OnPropertyChanged(nameof(Title));
 
         foreach (var a in result.Answers.OrderBy(x => x.QuestionId))
         {
             var q = a.Question!;
-            var correct = q.AnswerOptions.FirstOrDefault(o => o.IsCorrect)?.Text ?? "(не задан)";
-            var your = a.SelectedOption?.Text ?? "(нет ответа)";
+            var correct = q.AnswerOptions.FirstOrDefault(o => o.IsCorrect)?.Text ?? Loc.T("Str_NoCorrectAnswer");
+            var your = a.SelectedOption?.Text ?? Loc.T("Str_NoAnswer");
 
             Items.Add(new ReviewItem
             {
@@ -53,16 +62,12 @@ public class TestReviewViewModel : BaseViewModel
                 Explanation = q.Explanation
             });
         }
-
-        BackCommand = new RelayCommand(Back);
     }
 
     private void Back(object? parameter)
     {
         var w = new TestResultWindow(_testResultId);
         w.Show();
-
-        if (parameter is Window currentWindow)
-            currentWindow.Close();
+        if (parameter is Window currentWindow) currentWindow.Close();
     }
 }

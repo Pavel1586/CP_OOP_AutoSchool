@@ -3,105 +3,124 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Аналитика">
 
-	<Page.Resources>
-		<!-- Небольшая тень для "карточек" -->
-		<DropShadowEffect x:Key="CardShadow"
+    <Page.Resources>
+        <DropShadowEffect x:Key="CardShadow"
                           BlurRadius="14"
                           ShadowDepth="2"
                           Opacity="0.18"
                           Color="#000000"/>
 
-		<!-- Стиль карточки -->
-		<Style x:Key="CardStyle" TargetType="Border">
-			<Setter Property="CornerRadius" Value="8"/>
-			<Setter Property="Background" Value="White"/>
-			<Setter Property="BorderBrush" Value="#E2E2E2"/>
-			<Setter Property="BorderThickness" Value="1"/>
-			<Setter Property="Padding" Value="14"/>
-			<Setter Property="Margin" Value="0,0,0,12"/>
-			<Setter Property="Effect" Value="{StaticResource CardShadow}"/>
-		</Style>
+        <!-- большая карточка -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+            <Setter Property="Effect" Value="{StaticResource CardShadow}"/>
+        </Style>
 
-		<!-- Заголовки секций -->
-		<Style x:Key="SectionTitleStyle" TargetType="TextBlock">
-			<Setter Property="FontSize" Value="18"/>
-			<Setter Property="FontWeight" Value="Bold"/>
-			<Setter Property="Margin" Value="0,0,0,10"/>
-		</Style>
-	</Page.Resources>
+        <!-- маленькие карточки в сводке -->
+        <Style x:Key="MiniCardStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Background" Value="{DynamicResource Surface2Brush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="0,0,12,12"/>
+            <Setter Property="MinHeight" Value="110"/>
+        </Style>
 
-	<ScrollViewer VerticalScrollBarVisibility="Auto">
-		<Grid Margin="12">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="*"/>
-				<RowDefinition Height="Auto"/>
-			</Grid.RowDefinitions>
+        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
 
-			<!-- ===== HEADER ===== -->
-			<Grid Grid.Row="0" Margin="0,0,0,12">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="Auto"/>
-				</Grid.ColumnDefinitions>
+        <Style x:Key="MutedTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource SubTextBrush}"/>
+        </Style>
+    </Page.Resources>
 
-				<StackPanel>
-					<TextBlock Text="Аналитика"
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- header -->
+                <RowDefinition Height="Auto"/>
+                <!-- filters -->
+                <RowDefinition Height="Auto"/>
+                <!-- summary -->
+                <RowDefinition Height="*"/>
+                <!-- details -->
+                <RowDefinition Height="10"/>
+                <!-- spacer -->
+            </Grid.RowDefinitions>
+
+            <!-- ================= HEADER ================= -->
+            <Grid Grid.Row="0" Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="Аналитика"
                                FontSize="26"
-                               FontWeight="Bold"/>
-					<TextBlock Text="Сводка по тестам, пользователям и ошибкам"
-                               Foreground="Gray"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource TextBrush}"/>
+                    <TextBlock Text="Сводка по тестам, пользователям и ошибкам"
+                               Style="{StaticResource MutedTextStyle}"
                                Margin="0,6,0,0"/>
-				</StackPanel>
+                </StackPanel>
 
-				<Button Grid.Column="1"
+                <Button Grid.Column="1"
                         Content="Назад"
                         MinWidth="120"
                         Height="35"
                         VerticalAlignment="Top"
                         Command="{Binding BackCommand}"/>
-			</Grid>
+            </Grid>
 
-			<!-- ===== FILTERS CARD ===== -->
-			<Border Grid.Row="1" Style="{StaticResource CardStyle}">
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition Width="*"/>
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition Width="Auto"/>
-					</Grid.ColumnDefinitions>
+            <!-- ================= FILTERS ================= -->
+            <Border Grid.Row="1" Style="{StaticResource CardStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-					<TextBlock Text="Период:"
+                    <TextBlock Text="Период:"
                                VerticalAlignment="Center"
                                Margin="0,0,10,0"
-                               Foreground="Gray"/>
+                               Style="{StaticResource MutedTextStyle}"/>
 
-					<DatePicker Grid.Column="1"
+                    <DatePicker Grid.Column="1"
                                 Width="150"
                                 SelectedDate="{Binding DateFrom}"
                                 Margin="0,0,8,0"/>
 
-					<TextBlock Grid.Column="2"
+                    <TextBlock Grid.Column="2"
                                Text="—"
                                VerticalAlignment="Center"
                                Margin="0,0,8,0"
-                               Foreground="Gray"/>
+                               Style="{StaticResource MutedTextStyle}"/>
 
-					<DatePicker Grid.Column="3"
+                    <DatePicker Grid.Column="3"
                                 Width="150"
                                 SelectedDate="{Binding DateTo}"
                                 Margin="0,0,14,0"/>
 
-					<!-- spacer -->
-					<Grid Grid.Column="4"/>
+                    <Grid Grid.Column="4"/>
 
-					<Button Grid.Column="5"
+                    <Button Grid.Column="5"
                             Content="Обновить"
                             MinWidth="130"
                             Height="32"
@@ -109,121 +128,100 @@
                             Style="{StaticResource Win10PrimaryButton}"
                             Command="{Binding RefreshCommand}"/>
 
-					<Button Grid.Column="6"
+                    <Button Grid.Column="6"
                             Content="Экспорт CSV"
                             MinWidth="130"
                             Height="32"
                             Command="{Binding ExportCsvCommand}"/>
-				</Grid>
-			</Border>
+                </Grid>
+            </Border>
 
-			<!-- ===== SUMMARY CARDS ===== -->
-			<Border Grid.Row="2" Style="{StaticResource CardStyle}">
-				<StackPanel>
-					<TextBlock Text="Сводка"
-                               Style="{StaticResource SectionTitleStyle}"/>
+            <!-- ================= SUMMARY ================= -->
+            <Border Grid.Row="2" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Сводка" Style="{StaticResource SectionTitleStyle}"/>
 
-					<!-- WrapPanel чтобы карточки красиво переносились при изменении ширины окна -->
-					<WrapPanel ItemWidth="220"
-                               ItemHeight="90"
-                               HorizontalAlignment="Left">
-
-						<!-- Card 1 -->
-						<Border CornerRadius="8"
-                                Background="#FFF8F8F8"
-                                BorderBrush="#E3E3E3"
-                                BorderThickness="1"
-                                Padding="12"
-                                Margin="0,0,12,12">
-							<StackPanel>
-								<TextBlock Text="Тестов" Foreground="Gray"/>
-								<TextBlock Text="{Binding TotalTests}"
+                    <WrapPanel ItemWidth="250" HorizontalAlignment="Left">
+                        <Border Style="{StaticResource MiniCardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Тестов" Style="{StaticResource MutedTextStyle}"/>
+                                <TextBlock Text="{Binding TotalTests}"
                                            FontSize="24"
                                            FontWeight="Bold"
+                                           Foreground="{DynamicResource TextBrush}"
                                            Margin="0,6,0,0"/>
-							</StackPanel>
-						</Border>
+                            </StackPanel>
+                        </Border>
 
-						<!-- Card 2 -->
-						<Border CornerRadius="8"
-                                Background="#FFF8F8F8"
-                                BorderBrush="#E3E3E3"
-                                BorderThickness="1"
-                                Padding="12"
-                                Margin="0,0,12,12">
-							<StackPanel>
-								<TextBlock Text="Пользователей" Foreground="Gray"/>
-								<TextBlock Text="{Binding UniqueUsers}"
+                        <Border Style="{StaticResource MiniCardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Пользователей" Style="{StaticResource MutedTextStyle}"/>
+                                <TextBlock Text="{Binding UniqueUsers}"
                                            FontSize="24"
                                            FontWeight="Bold"
+                                           Foreground="{DynamicResource TextBrush}"
                                            Margin="0,6,0,0"/>
-							</StackPanel>
-						</Border>
+                            </StackPanel>
+                        </Border>
 
-						<!-- Card 3 -->
-						<Border CornerRadius="8"
-                                Background="#FFF8F8F8"
-                                BorderBrush="#E3E3E3"
-                                BorderThickness="1"
-                                Padding="12"
-                                Margin="0,0,12,12">
-							<StackPanel>
-								<TextBlock Text="Сдано" Foreground="Gray"/>
-								<TextBlock Text="{Binding PassedTests}"
+                        <Border Style="{StaticResource MiniCardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Сдано" Style="{StaticResource MutedTextStyle}"/>
+                                <TextBlock Text="{Binding PassedTests}"
                                            FontSize="24"
                                            FontWeight="Bold"
+                                           Foreground="{DynamicResource TextBrush}"
                                            Margin="0,6,0,0"/>
-							</StackPanel>
-						</Border>
+                            </StackPanel>
+                        </Border>
 
-						<!-- Card 4 -->
-						<Border CornerRadius="8"
-                                Background="#FFF8F8F8"
-                                BorderBrush="#E3E3E3"
-                                BorderThickness="1"
-                                Padding="12"
-                                Margin="0,0,12,12">
-							<StackPanel>
-								<TextBlock Text="Процент сдачи" Foreground="Gray"/>
-								<TextBlock Text="{Binding PassRateText}"
+                        <Border Style="{StaticResource MiniCardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Процент сдачи" Style="{StaticResource MutedTextStyle}"/>
+                                <TextBlock Text="{Binding PassRateText}"
                                            FontSize="24"
                                            FontWeight="Bold"
+                                           Foreground="{DynamicResource TextBrush}"
                                            Margin="0,6,0,0"/>
-							</StackPanel>
-						</Border>
+                            </StackPanel>
+                        </Border>
 
-						<!-- Card 5 -->
-						<Border CornerRadius="8"
-                                Background="#FFF8F8F8"
-                                BorderBrush="#E3E3E3"
-                                BorderThickness="1"
-                                Padding="12"
-                                Margin="0,0,12,12">
-							<StackPanel>
-								<TextBlock Text="Средний результат" Foreground="Gray"/>
-								<TextBlock Text="{Binding AvgScoreText}"
+                        <Border Style="{StaticResource MiniCardStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Средний результат" Style="{StaticResource MutedTextStyle}"/>
+                                <TextBlock Text="{Binding AvgScoreText}"
                                            FontSize="18"
                                            FontWeight="Bold"
+                                           Foreground="{DynamicResource TextBrush}"
                                            Margin="0,8,0,0"
-                                           TextWrapping="Wrap"/>
-							</StackPanel>
-						</Border>
+                                           TextWrapping="Wrap"
+                                           TextTrimming="CharacterEllipsis"
+                                           MaxHeight="56"/>
+                            </StackPanel>
+                        </Border>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
 
-					</WrapPanel>
-				</StackPanel>
-			</Border>
+            <!-- ================= DETAILS ================= -->
+            <Border Grid.Row="3" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Детализация" Style="{StaticResource SectionTitleStyle}"/>
 
-			<!-- ===== DATA (TABS) ===== -->
-			<Border Grid.Row="3" Style="{StaticResource CardStyle}">
-				<StackPanel>
-					<TextBlock Text="Детализация"
-                               Style="{StaticResource SectionTitleStyle}"/>
+                    <!-- ВАЖНО: дали имя, чтобы в code-behind принудительно переустановить стиль при смене темы -->
+                    <TabControl x:Name="DetailsTabs"
+                                HorizontalAlignment="Stretch"
+                                ItemContainerStyle="{DynamicResource AnalyticsTabItemStyle}">
 
-					<TabControl>
-						<!-- TOP USERS -->
-						<TabItem Header="Топ пользователей">
-							<Grid Margin="10">
-								<DataGrid ItemsSource="{Binding TopUsers}"
+                        <TabControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </TabControl.ItemsPanel>
+
+                        <TabItem Header="Топ пользователей">
+                            <Grid Margin="10">
+                                <DataGrid ItemsSource="{Binding TopUsers}"
                                           AutoGenerateColumns="False"
                                           IsReadOnly="True"
                                           CanUserAddRows="False"
@@ -233,23 +231,22 @@
                                           ColumnHeaderStyle="{StaticResource WrapHeaderStyle}"
                                           RowHeight="NaN"
                                           MinRowHeight="28">
-									<DataGrid.Columns>
-										<DataGridTextColumn Header="Email"
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Email"
                                                             Binding="{Binding Email}"
                                                             Width="2*"
                                                             ElementStyle="{StaticResource WrapCellTextStyle}"/>
-										<DataGridTextColumn Header="Тестов" Binding="{Binding Tests}" Width="90"/>
-										<DataGridTextColumn Header="Сдано" Binding="{Binding Passed}" Width="90"/>
-										<DataGridTextColumn Header="% сдачи" Binding="{Binding PassRateText}" Width="110"/>
-									</DataGrid.Columns>
-								</DataGrid>
-							</Grid>
-						</TabItem>
+                                        <DataGridTextColumn Header="Тестов" Binding="{Binding Tests}" Width="90"/>
+                                        <DataGridTextColumn Header="Сдано" Binding="{Binding Passed}" Width="90"/>
+                                        <DataGridTextColumn Header="% сдачи" Binding="{Binding PassRateText}" Width="110"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
 
-						<!-- TICKETS -->
-						<TabItem Header="Статистика по билетам">
-							<Grid Margin="10">
-								<DataGrid ItemsSource="{Binding TicketStats}"
+                        <TabItem Header="Статистика по билетам">
+                            <Grid Margin="10">
+                                <DataGrid ItemsSource="{Binding TicketStats}"
                                           AutoGenerateColumns="False"
                                           IsReadOnly="True"
                                           CanUserAddRows="False"
@@ -259,23 +256,22 @@
                                           ColumnHeaderStyle="{StaticResource WrapHeaderStyle}"
                                           RowHeight="NaN"
                                           MinRowHeight="28">
-									<DataGrid.Columns>
-										<DataGridTextColumn Header="Билет"
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Билет"
                                                             Binding="{Binding TicketTitle}"
                                                             Width="2*"
                                                             ElementStyle="{StaticResource WrapCellTextStyle}"/>
-										<DataGridTextColumn Header="Тестов" Binding="{Binding Tests}" Width="90"/>
-										<DataGridTextColumn Header="Сдано" Binding="{Binding Passed}" Width="90"/>
-										<DataGridTextColumn Header="% сдачи" Binding="{Binding PassRateText}" Width="110"/>
-									</DataGrid.Columns>
-								</DataGrid>
-							</Grid>
-						</TabItem>
+                                        <DataGridTextColumn Header="Тестов" Binding="{Binding Tests}" Width="90"/>
+                                        <DataGridTextColumn Header="Сдано" Binding="{Binding Passed}" Width="90"/>
+                                        <DataGridTextColumn Header="% сдачи" Binding="{Binding PassRateText}" Width="110"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
 
-						<!-- MISTAKES -->
-						<TabItem Header="Топ ошибок">
-							<Grid Margin="10">
-								<DataGrid ItemsSource="{Binding TopMistakeQuestions}"
+                        <TabItem Header="Топ ошибок">
+                            <Grid Margin="10">
+                                <DataGrid ItemsSource="{Binding TopMistakeQuestions}"
                                           AutoGenerateColumns="False"
                                           IsReadOnly="True"
                                           CanUserAddRows="False"
@@ -285,28 +281,27 @@
                                           ColumnHeaderStyle="{StaticResource WrapHeaderStyle}"
                                           RowHeight="NaN"
                                           MinRowHeight="28">
-									<DataGrid.Columns>
-										<DataGridTextColumn Header="Билет"
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Билет"
                                                             Binding="{Binding TicketTitle}"
                                                             Width="140"
                                                             ElementStyle="{StaticResource WrapCellTextStyle}"/>
-										<DataGridTextColumn Header="Вопрос"
+                                        <DataGridTextColumn Header="Вопрос"
                                                             Binding="{Binding QuestionText}"
                                                             Width="3*"
                                                             ElementStyle="{StaticResource WrapCellTextStyle}"/>
-										<DataGridTextColumn Header="Ошибок" Binding="{Binding WrongCount}" Width="90"/>
-										<DataGridTextColumn Header="Всего" Binding="{Binding TotalCount}" Width="90"/>
-										<DataGridTextColumn Header="%" Binding="{Binding WrongRateText}" Width="80"/>
-									</DataGrid.Columns>
-								</DataGrid>
-							</Grid>
-						</TabItem>
-					</TabControl>
-				</StackPanel>
-			</Border>
+                                        <DataGridTextColumn Header="Ошибок" Binding="{Binding WrongCount}" Width="90"/>
+                                        <DataGridTextColumn Header="Всего" Binding="{Binding TotalCount}" Width="90"/>
+                                        <DataGridTextColumn Header="%" Binding="{Binding WrongRateText}" Width="80"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
 
-			<!-- Нижний отступ (на случай очень малого окна) -->
-			<Grid Grid.Row="4" Height="10"/>
-		</Grid>
-	</ScrollViewer>
+                    </TabControl>
+                </StackPanel>
+            </Border>
+
+        </Grid>
+    </ScrollViewer>
 </Page>

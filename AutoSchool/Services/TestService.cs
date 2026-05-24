@@ -1,7 +1,6 @@
-﻿using AutoSchool.Data;
+﻿using AutoSchool.Data.UoW;
 using AutoSchool.Models;
 using AutoSchool.Services.Abstractions;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoSchool.Services;
 
@@ -11,15 +10,10 @@ public class TestService : ITestService
 
     public Ticket GetTicketForTest(int ticketId)
     {
-        using var context = new ApplicationDbContext();
+        using var uow = new UnitOfWork();
 
-        var ticket = context.Tickets
-            .AsNoTracking()
-            .Include(t => t.Questions)
-                .ThenInclude(q => q.AnswerOptions)
-            .First(t => t.Id == ticketId);
+        var ticket = uow.Tickets.GetTicketWithQuestionsAndOptions(ticketId);
 
-        // тест всегда на 10 вопросов (как у тебя в VM)
         ticket.Questions = ticket.Questions
             .OrderBy(q => q.Id)
             .Take(QuestionsPerTicket)
@@ -28,16 +22,15 @@ public class TestService : ITestService
         return ticket;
     }
 
-    public int SaveTicketTestResult(int userId, int ticketId, IReadOnlyDictionary<int, int?> selectedOptionByQuestionId)
+    public int SaveTicketTestResult(
+        int userId,
+        int ticketId,
+        IReadOnlyDictionary<int, int?> selectedOptionByQuestionId)
     {
-        using var context = new ApplicationDbContext();
+        using var uow = new UnitOfWork();
 
         var questionIds = selectedOptionByQuestionId.Keys.ToList();
-
-        var questions = context.Questions
-            .Include(q => q.AnswerOptions)
-            .Where(q => questionIds.Contains(q.Id))
-            .ToList();
+        var questions = uow.Questions.GetWithOptionsByIds(questionIds);
 
         int correct = 0;
         int wrong = 0;
@@ -59,7 +52,6 @@ public class TestService : ITestService
                 : null;
 
             bool isCorrect = selected != null && selected.IsCorrect;
-
             if (isCorrect) correct++; else wrong++;
 
             result.Answers.Add(new TestAnswer
@@ -73,8 +65,8 @@ public class TestService : ITestService
         result.CorrectAnswers = correct;
         result.WrongAnswers = wrong;
 
-        context.TestResults.Add(result);
-        context.SaveChanges();
+        uow.Context.TestResults.Add(result);
+        uow.SaveChanges();
 
         return result.Id;
     }

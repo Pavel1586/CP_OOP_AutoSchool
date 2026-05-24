@@ -2,22 +2,92 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Билет"
-        Height="180" Width="420"
-        WindowStartupLocation="CenterScreen"
+        Width="520"
+        Height="320"
+        MinWidth="520"
+        MinHeight="300"
+        WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize">
-    <Grid Margin="15">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <TextBlock Text="Название билета" Margin="0,0,0,5"/>
-        <TextBox x:Name="TitleBox" Grid.Row="1" Height="30"/>
+    <!-- фон окна как в приложении -->
+    <Window.Background>
+        <DynamicResource ResourceKey="AppBackgroundBrush"/>
+    </Window.Background>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
-            <Button Content="OK" Width="100" Height="35" Margin="5" Click="Ok_Click"/>
-            <Button Content="Отмена" Width="100" Height="35" Margin="5" Click="Cancel_Click"/>
-        </StackPanel>
-    </Grid>
+    <!-- локально для окна: чтобы текст не резался -->
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="MinHeight" Value="34"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="MinHeight" Value="34"/>
+            <Setter Property="MaxDropDownHeight" Value="240"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        </Style>
+    </Window.Resources>
+
+    <!-- ScrollViewer гарантирует, что низ (кнопки) не пропадёт -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+
+        <Grid Margin="16">
+            <Border Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14"
+                    Padding="16">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Название -->
+                    <TextBlock Text="Название билета"
+                               Foreground="{DynamicResource SubTextBrush}"
+                               Margin="0,0,0,6"/>
+
+                    <TextBox x:Name="TitleBox" Grid.Row="1"/>
+
+                    <!-- Тема -->
+                    <TextBlock Grid.Row="2"
+                               Text="Тема"
+                               Foreground="{DynamicResource SubTextBrush}"
+                               Margin="0,12,0,6"/>
+
+                    <ComboBox x:Name="TopicBox"
+                              Grid.Row="3"
+                              DisplayMemberPath="Name"
+                              SelectedValuePath="Id"/>
+
+                    <!-- Кнопки -->
+                    <StackPanel Grid.Row="4"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Margin="0,18,0,0">
+                        <Button Content="OK"
+                                Width="140"
+                                Height="36"
+                                Margin="8,0"
+                                Click="Ok_Click"/>
+                        <Button Content="Отмена"
+                                Width="140"
+                                Height="36"
+                                Margin="8,0"
+                                Click="Cancel_Click"/>
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
 </Window>

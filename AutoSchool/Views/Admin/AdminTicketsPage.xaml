@@ -3,46 +3,105 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Билеты">
 
-	<Grid Margin="12">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
+    <Page.Resources>
+        <!-- Представление билетов с фильтром по теме -->
+        <CollectionViewSource x:Key="TicketsView" Filter="TicketsView_Filter"/>
+    </Page.Resources>
 
-		<TextBlock Text="Билеты"
-                   FontSize="22"
-                   FontWeight="Bold"
-                   Margin="0,0,0,10"/>
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-		<DataGrid Grid.Row="1"
-                  ItemsSource="{Binding Tickets}"
+        <!-- Верх: заголовок + выбор темы -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="240"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Билеты"
+                           FontSize="22"
+                           FontWeight="Bold"/>
+
+                <TextBlock Text="{Binding StatusText}"
+                           Foreground="{DynamicResource SubTextBrush}"
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+                <TextBlock Text="Тема"
+                           Foreground="{DynamicResource SubTextBrush}"
+                           Margin="0,0,0,4"/>
+                <ComboBox ItemsSource="{Binding Topics, RelativeSource={RelativeSource AncestorType=Page}}"
+                          SelectedItem="{Binding SelectedTopic, RelativeSource={RelativeSource AncestorType=Page}, Mode=TwoWay}"
+                          MinHeight="32"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Таблица билетов -->
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Source={StaticResource TicketsView}}"
                   SelectedItem="{Binding SelectedTicket}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
                   CanUserAddRows="False"
+                  CanUserResizeRows="False"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                  CellStyle="{StaticResource WrapCellStyle}"
-                  ColumnHeaderStyle="{StaticResource WrapHeaderStyle}"
+                  CellStyle="{DynamicResource WrapCellStyle}"
+                  ColumnHeaderStyle="{DynamicResource WrapHeaderStyle}"
                   RowHeight="NaN"
                   MinRowHeight="28">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="80"/>
-				<DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*"
-                                    ElementStyle="{StaticResource WrapCellTextStyle}"/>
-				<DataGridTextColumn Header="Вопросов" Binding="{Binding QuestionsCount}" Width="120"/>
-			</DataGrid.Columns>
-		</DataGrid>
 
-		<WrapPanel Grid.Row="2"
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="70"/>
+
+                <!-- Тема (должно быть свойство TopicName или Topic/Theme) -->
+                <DataGridTextColumn Header="Тема" Binding="{Binding TopicName}" Width="200"
+                                    ElementStyle="{DynamicResource WrapCellTextStyle}"/>
+
+                <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*"
+                                    ElementStyle="{DynamicResource WrapCellTextStyle}"/>
+
+                <DataGridTextColumn Header="Вопросов" Binding="{Binding QuestionsCount}" Width="110"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопки -->
+        <WrapPanel Grid.Row="2"
                    HorizontalAlignment="Center"
-                   Margin="0,10,0,0"
-                   ItemHeight="35">
-			<Button Content="Добавить" MinWidth="120" Height="35" Margin="5" Command="{Binding AddCommand}"/>
-			<Button Content="Изменить" MinWidth="120" Height="35" Margin="5" Command="{Binding EditCommand}"/>
-			<Button Content="Удалить" MinWidth="120" Height="35" Margin="5" Command="{Binding DeleteCommand}"/>
-			<Button Content="Вопросы" MinWidth="120" Height="35" Margin="5" Command="{Binding OpenQuestionsCommand}"/>
-		</WrapPanel>
-	</Grid>
+                   Margin="0,12,0,0">
+            <Button Content="Добавить"
+                    MinWidth="120"
+                    Height="35"
+                    Margin="5"
+                    Command="{Binding AddCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+
+            <Button Content="Изменить"
+                    MinWidth="120"
+                    Height="35"
+                    Margin="5"
+                    Command="{Binding EditCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+
+            <Button Content="Заполнить билет"
+                    MinWidth="160"
+                    Height="35"
+                    Margin="5"
+                    Command="{Binding FillTicketCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+
+            <Button Content="Удалить"
+                    MinWidth="120"
+                    Height="35"
+                    Margin="5"
+                    Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </WrapPanel>
+    </Grid>
 </Page>

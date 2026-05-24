@@ -2,102 +2,154 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:AutoSchool.ViewModels"
-        Title="Выбор инструктора" Height="470" Width="980"
+        Title="{DynamicResource InstructorSelectionWindowTitle}"
+        Height="470" Width="980"
         WindowStartupLocation="CenterScreen">
 
-    <!-- ФОН ОКНА -->
     <Window.Background>
-        <ImageBrush ImageSource="/Assets/background.png"
-                    Stretch="Fill"
-                    AlignmentX="Center"
-                    AlignmentY="Center"/>
+        <DynamicResource ResourceKey="AppBackgroundBrush"/>
     </Window.Background>
 
     <Window.DataContext>
-		<vm:InstructorSelectionViewModel/>
-	</Window.DataContext>
+        <vm:InstructorSelectionViewModel/>
+    </Window.DataContext>
 
-	<Grid Margin="15">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="2.2*"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-		<TextBlock Text="Выберите инструктора" FontSize="20" FontWeight="Bold"
-                   Grid.ColumnSpan="2"/>
+        <TextBlock Text="{DynamicResource SelectInstructorHeader}"
+                   FontSize="20" FontWeight="Bold" Grid.ColumnSpan="2"/>
 
-		<!-- Таблица инструкторов -->
-		<DataGrid Grid.Row="1" Grid.Column="0" Margin="0,10,10,10"
+        <DataGrid Grid.Row="1" Grid.Column="0" Margin="0,10,10,10"
                   ItemsSource="{Binding Instructors}"
                   SelectedItem="{Binding SelectedInstructor}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
-                  CanUserAddRows="False">
+                  CanUserAddRows="False"
+                  ColumnHeaderStyle="{DynamicResource WrapHeaderStyle}"
+                  CellStyle="{DynamicResource WrapCellStyle}">
 
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Фото" Width="85">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<Border Width="65" Height="65" CornerRadius="8" ClipToBounds="True"
-                                    BorderBrush="#DDD" BorderThickness="1">
-								<Image Stretch="UniformToFill"
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="85">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource Photo}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border Width="65" Height="65" CornerRadius="8" ClipToBounds="True"
+                                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                <Image Stretch="UniformToFill"
                                        Source="{Binding Photo, Converter={StaticResource BytesToImage}}"/>
-							</Border>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-				<DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="180"/>
-				<DataGridTextColumn Header="Категория" Binding="{Binding VehicleCategory}" Width="90"/>
-				<DataGridTextColumn Header="КПП" Binding="{Binding TransmissionText}" Width="90"/>
-				<DataGridTextColumn Header="ТС" Binding="{Binding Vehicle}" Width="170"/>
-				<DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="140"/>
-				<DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="200"/>
-			</DataGrid.Columns>
-		</DataGrid>
+                <DataGridTextColumn Binding="{Binding FullName}" Width="180">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource FullName}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
 
-		<!-- Панель подробностей -->
-		<Border Grid.Row="1" Grid.Column="1" Margin="0,10,0,10"
-                BorderBrush="#DDD" BorderThickness="1" CornerRadius="8" Padding="12">
-			<StackPanel>
-				<TextBlock Text="Информация" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                <DataGridTextColumn Binding="{Binding VehicleCategory}" Width="90">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource Category}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
 
-				<Border Width="220" Height="220" CornerRadius="10" ClipToBounds="True"
-                        BorderBrush="#DDD" BorderThickness="1" HorizontalAlignment="Left">
-					<Image Stretch="UniformToFill"
+                <DataGridTextColumn Binding="{Binding TransmissionText}" Width="110">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource Transmission}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Vehicle}" Width="170">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource Vehicle}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Phone}" Width="140">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource Phone}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Email}" Width="200">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource Email}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border Grid.Row="1" Grid.Column="1" Margin="0,10,0,10"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="12">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource Info}" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                <Border Width="220" Height="220" CornerRadius="10" ClipToBounds="True"
+                        BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                    <Image Stretch="UniformToFill"
                            Source="{Binding SelectedInstructor.Photo, Converter={StaticResource BytesToImage}}"/>
-				</Border>
+                </Border>
 
-				<TextBlock Margin="0,10,0,0" FontSize="16" FontWeight="Bold"
+                <TextBlock Margin="0,10,0,0" FontSize="16" FontWeight="Bold"
                            Text="{Binding SelectedInstructor.FullName}"/>
 
-				<TextBlock Margin="0,8,0,0" Text="{Binding SelectedInstructor.Phone, StringFormat=Телефон: {0}}"/>
-				<TextBlock Text="{Binding SelectedInstructor.Email, StringFormat=Email: {0}}"/>
+                <TextBlock Margin="0,8,0,0">
+                    <Run Text="{DynamicResource Phone}"/><Run Text=": "/>
+                    <Run Text="{Binding SelectedInstructor.Phone}"/>
+                </TextBlock>
 
-				<TextBlock Margin="0,10,0,0" Text="{Binding SelectedInstructor.VehicleCategory, StringFormat=Категория: {0}}"/>
-				<TextBlock Text="{Binding SelectedInstructor.TransmissionText, StringFormat=КПП: {0}}"/>
-				<TextBlock Text="{Binding SelectedInstructor.Vehicle, StringFormat=ТС: {0}}"/>
+                <TextBlock>
+                    <Run Text="{DynamicResource Email}"/><Run Text=": "/>
+                    <Run Text="{Binding SelectedInstructor.Email}"/>
+                </TextBlock>
 
-				<TextBlock Margin="0,10,0,0" Foreground="Gray" Text="Выбор сохраняется в профиле пользователя."/>
-			</StackPanel>
-		</Border>
+                <TextBlock Margin="0,10,0,0"
+                           Foreground="{DynamicResource SubTextBrush}"
+                           Text="{DynamicResource SelectionSavedHint}"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
 
-		<!-- Кнопки -->
-		<StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button Content="Выбрать" Width="140" Height="35" Margin="5"
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="{DynamicResource Select}" Width="140" Height="35" Margin="5"
                     Command="{Binding SelectCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-			<Button Content="Снять выбор" Width="140" Height="35" Margin="5"
+            <Button Content="{DynamicResource ClearSelection}" Width="140" Height="35" Margin="5"
                     Command="{Binding ClearCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-			<Button Content="Назад" Width="120" Height="35" Margin="5"
+            <Button Content="{DynamicResource Back}" Width="120" Height="35" Margin="5"
                     Command="{Binding BackCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-		</StackPanel>
-	</Grid>
+        </StackPanel>
+    </Grid>
 </Window>

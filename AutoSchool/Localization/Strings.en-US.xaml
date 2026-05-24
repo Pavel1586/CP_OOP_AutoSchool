@@ -1,0 +1,220 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- =========================================================
+       COMMON
+  ========================================================= -->
+    <sys:String x:Key="Close">Close</sys:String>
+    <sys:String x:Key="Back">Back</sys:String>
+    <sys:String x:Key="Next">Next</sys:String>
+    <sys:String x:Key="Open">Open</sys:String>
+    <sys:String x:Key="Exit">Exit</sys:String>
+
+    <!-- Aliases -->
+    <sys:String x:Key="Str_Close">Close</sys:String>
+    <sys:String x:Key="Str_Back">Back</sys:String>
+    <sys:String x:Key="Str_Next">Next</sys:String>
+    <sys:String x:Key="Str_Open">Open</sys:String>
+    <sys:String x:Key="Str_Exit">Exit</sys:String>
+
+    <!-- =========================================================
+       SETTINGS
+  ========================================================= -->
+    <sys:String x:Key="SettingsTitle">Settings</sys:String>
+    <sys:String x:Key="ThemeHeader">Theme</sys:String>
+    <sys:String x:Key="Light">Light</sys:String>
+    <sys:String x:Key="Dark">Dark</sys:String>
+    <sys:String x:Key="LanguageHeader">Language</sys:String>
+    <sys:String x:Key="Russian">Russian</sys:String>
+    <sys:String x:Key="English">English</sys:String>
+
+    <!-- =========================================================
+       LOGIN
+  ========================================================= -->
+    <sys:String x:Key="LoginWindowTitle">Login</sys:String>
+    <sys:String x:Key="LoginTitle">Sign in</sys:String>
+    <sys:String x:Key="Email">Email</sys:String>
+    <sys:String x:Key="Password">Password</sys:String>
+    <sys:String x:Key="Login">Sign in</sys:String>
+    <sys:String x:Key="Register">Register</sys:String>
+
+    <!-- =========================================================
+       REGISTER
+  ========================================================= -->
+    <sys:String x:Key="RegisterWindowTitle">Registration</sys:String>
+    <sys:String x:Key="FirstName">First name</sys:String>
+    <sys:String x:Key="LastName">Last name</sys:String>
+    <sys:String x:Key="ConfirmPassword">Confirm password</sys:String>
+    <sys:String x:Key="RegisterSubmit">Create account</sys:String>
+
+    <!-- =========================================================
+       MAIN MENU
+  ========================================================= -->
+    <sys:String x:Key="MainMenuWindowTitle">Main menu</sys:String>
+    <sys:String x:Key="StartTest">Start test</sys:String>
+    <sys:String x:Key="ResultsHistory">Results history</sys:String>
+    <sys:String x:Key="ChooseInstructor">Choose instructor</sys:String>
+    <sys:String x:Key="TheorySchedule">Theory schedule</sys:String>
+    <sys:String x:Key="Settings">Settings</sys:String>
+    <sys:String x:Key="Logout">Logout</sys:String>
+    <sys:String x:Key="WelcomeGeneric">Hello!</sys:String>
+    <sys:String x:Key="WelcomeFormat">Hello, {0}!</sys:String>
+    <sys:String x:Key="InstructorNotSelected">Instructor not selected</sys:String>
+    <sys:String x:Key="YourInstructorFormat">Your instructor: {0} {1}</sys:String>
+
+    <!-- =========================================================
+       VALIDATION / AUTH MESSAGES
+  ========================================================= -->
+    <sys:String x:Key="MsgWrongCredentials">Invalid email or password.</sys:String>
+    <sys:String x:Key="Msg_WrongCredentials">Invalid email or password.</sys:String>
+
+    <sys:String x:Key="ErrEnterEmail">Enter email.</sys:String>
+    <sys:String x:Key="Err_EnterEmail">Enter email.</sys:String>
+
+    <sys:String x:Key="ErrInvalidEmail">Invalid email format.</sys:String>
+    <sys:String x:Key="Err_InvalidEmail">Invalid email format.</sys:String>
+
+    <sys:String x:Key="ErrEnterPassword">Enter password.</sys:String>
+    <sys:String x:Key="Err_EnterPassword">Enter password.</sys:String>
+
+    <sys:String x:Key="ErrEnterFirstName">Enter first name.</sys:String>
+    <sys:String x:Key="Err_EnterFirstName">Enter first name.</sys:String>
+
+    <sys:String x:Key="ErrEnterLastName">Enter last name.</sys:String>
+    <sys:String x:Key="Err_EnterLastName">Enter last name.</sys:String>
+
+    <sys:String x:Key="ErrConfirmPassword">Confirm password.</sys:String>
+    <sys:String x:Key="Err_ConfirmPassword">Confirm password.</sys:String>
+
+    <sys:String x:Key="ErrPasswordsNotMatch">Passwords do not match.</sys:String>
+    <sys:String x:Key="Err_PasswordsNotMatch">Passwords do not match.</sys:String>
+
+    <sys:String x:Key="ErrUserExists">User with this email already exists.</sys:String>
+    <sys:String x:Key="Err_UserExists">User with this email already exists.</sys:String>
+
+    <!-- Password rules -->
+    <sys:String x:Key="Err_PwdLen">Password length must be 8–20 characters.</sys:String>
+    <sys:String x:Key="Err_PwdAscii">Password must contain ASCII characters only (no Cyrillic).</sys:String>
+    <sys:String x:Key="Err_PwdUpper">Password must contain at least one uppercase letter.</sys:String>
+    <sys:String x:Key="Err_PwdLower">Password must contain at least one lowercase letter.</sys:String>
+    <sys:String x:Key="Err_PwdDigit">Password must contain at least one digit.</sys:String>
+    <sys:String x:Key="Err_PwdSpec">Password must contain at least one special character.</sys:String>
+
+    <!-- =========================================================
+       USER: INSTRUCTOR SELECTION
+  ========================================================= -->
+    <sys:String x:Key="InstructorSelectionWindowTitle">Choose instructor</sys:String>
+    <sys:String x:Key="SelectInstructorHeader">Choose instructor</sys:String>
+    <sys:String x:Key="Photo">Photo</sys:String>
+    <sys:String x:Key="FullName">Full name</sys:String>
+    <sys:String x:Key="Category">Category</sys:String>
+    <sys:String x:Key="Transmission">Transmission</sys:String>
+    <sys:String x:Key="Vehicle">Vehicle</sys:String>
+    <sys:String x:Key="Phone">Phone</sys:String>
+    <sys:String x:Key="Info">Info</sys:String>
+    <sys:String x:Key="SelectionSavedHint">Selection is saved automatically.</sys:String>
+    <sys:String x:Key="Select">Select</sys:String>
+    <sys:String x:Key="ClearSelection">Clear</sys:String>
+
+    <!-- =========================================================
+       USER: TOPIC SELECTION
+  ========================================================= -->
+    <sys:String x:Key="TopicSelectionWindowTitle">Choose topic</sys:String>
+    <sys:String x:Key="SelectTopicHeader">Choose topic</sys:String>
+    <sys:String x:Key="Topic">Topic</sys:String>
+    <sys:String x:Key="Questions">Questions</sys:String>
+    <sys:String x:Key="Tickets">Tickets</sys:String>
+
+    <sys:String x:Key="Msg_SelectTopic">Select a topic.</sys:String>
+    <sys:String x:Key="Msg_NoTicketsInTopic">There are no tickets in this topic.</sys:String>
+
+    <!-- =========================================================
+       USER: TICKETS BY TOPIC
+  ========================================================= -->
+    <sys:String x:Key="TicketsByTopicWindowTitle">Tickets by topic</sys:String>
+    <sys:String x:Key="Str_TicketsByTopicHeaderFormat">Tickets for topic: {0}</sys:String>
+    <sys:String x:Key="Id">Id</sys:String>
+    <sys:String x:Key="Ticket">Ticket</sys:String>
+    <sys:String x:Key="TopicQuestionsCount">Topic questions</sys:String>
+    <sys:String x:Key="TotalQuestionsCount">Total questions</sys:String>
+    <sys:String x:Key="StartTestBtn">Start test</sys:String>
+
+    <sys:String x:Key="Msg_SelectTicket">Select a ticket.</sys:String>
+
+    <!-- =========================================================
+       USER: RESULTS HISTORY
+  ========================================================= -->
+    <sys:String x:Key="ResultsHistoryWindowTitle">Results history</sys:String>
+    <sys:String x:Key="ResultsHistoryHeader">Results history</sys:String>
+    <sys:String x:Key="Date">Date</sys:String>
+    <sys:String x:Key="CorrectCount">Correct</sys:String>
+    <sys:String x:Key="WrongCount">Wrong</sys:String>
+    <sys:String x:Key="Status">Status</sys:String>
+    <sys:String x:Key="EmptyHistory">No results yet.</sys:String>
+
+    <sys:String x:Key="Str_Passed">PASSED</sys:String>
+    <sys:String x:Key="Str_NotPassed">FAILED</sys:String>
+
+    <!-- =========================================================
+       USER: THEORY SCHEDULE
+  ========================================================= -->
+    <sys:String x:Key="TheoryScheduleWindowTitle">Theory schedule</sys:String>
+    <sys:String x:Key="TheoryScheduleHeader">Theory schedule</sys:String>
+    <sys:String x:Key="DateTime">Date/time</sys:String>
+    <sys:String x:Key="Duration">Duration</sys:String>
+    <sys:String x:Key="Room">Room</sys:String>
+    <sys:String x:Key="Notes">Notes</sys:String>
+
+    <sys:String x:Key="Str_TrainingPlanFormat">Training plan: {0:d} — {1:d} (total {2} days, passed {3}, remaining {4}).</sys:String>
+    <sys:String x:Key="Str_TrainingPlanNotSet">Training plan is not set.</sys:String>
+
+    <!-- =========================================================
+       TEST PASSING
+  ========================================================= -->
+    <sys:String x:Key="Str_TestWindowTitle">Test</sys:String>
+    <sys:String x:Key="Str_NoImage">No image</sys:String>
+
+    <sys:String x:Key="Str_Confirm">CONFIRM</sys:String>
+    <sys:String x:Key="Str_Result">RESULT</sys:String>
+    <sys:String x:Key="Str_NextQuestion">NEXT QUESTION</sys:String>
+
+    <sys:String x:Key="Str_QuestionXOfY">Question {0} of {1}</sys:String>
+
+    <sys:String x:Key="Str_CorrectUpper">CORRECT</sys:String>
+    <sys:String x:Key="Str_WrongUpper">WRONG</sys:String>
+
+    <sys:String x:Key="Msg_NotEnoughQuestionsFormat">Not enough questions in the ticket: required {0}, available {1}.</sys:String>
+    <sys:String x:Key="Msg_SelectOption">Select an answer option.</sys:String>
+
+    <sys:String x:Key="Msg_ExitTestTitle">Exit test</sys:String>
+    <sys:String x:Key="Msg_ExitTestText">Exit the test? Progress will be lost.</sys:String>
+
+    <sys:String x:Key="Msg_ShowResultFailed">Failed to display result.</sys:String>
+
+    <!-- =========================================================
+       TEST RESULT
+  ========================================================= -->
+    <sys:String x:Key="Str_TestResultWindowTitle">Test result</sys:String>
+    <sys:String x:Key="Str_TestPassedUpper">PASSED</sys:String>
+    <sys:String x:Key="Str_TestFailedUpper">FAILED</sys:String>
+    <sys:String x:Key="Str_AnsweredFormat">Answered: {0} of {1}</sys:String>
+    <sys:String x:Key="Str_SummaryFormat">Correct: {0} • Wrong: {1}</sys:String>
+    <sys:String x:Key="Str_Review">Review</sys:String>
+    <sys:String x:Key="Str_ToMenu">To menu</sys:String>
+
+    <!-- =========================================================
+       TEST REVIEW
+  ========================================================= -->
+    <sys:String x:Key="Review">Review</sys:String>
+    <sys:String x:Key="Question">Question</sys:String>
+    <sys:String x:Key="YourAnswer">Your answer</sys:String>
+    <sys:String x:Key="CorrectAnswer">Correct answer</sys:String>
+    <sys:String x:Key="Explanation">Explanation</sys:String>
+
+    <sys:String x:Key="Str_ReviewTitleFormat">Review — {0}</sys:String>
+    <sys:String x:Key="Str_NoCorrectAnswer">No correct answer</sys:String>
+    <sys:String x:Key="Str_NoAnswer">No answer</sys:String>
+
+</ResourceDictionary>

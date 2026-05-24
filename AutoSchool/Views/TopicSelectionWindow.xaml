@@ -2,17 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:AutoSchool.ViewModels"
-        Title="Выбор темы" Height="420" Width="650"
+        Title="{DynamicResource TopicSelectionWindowTitle}"
+        Height="420" Width="650"
         WindowStartupLocation="CenterScreen">
-	
-	<!-- ФОН ОКНА -->
-	<Window.Background>
-		<ImageBrush ImageSource="/Assets/background.png"
-                    Stretch="Fill"
-                    AlignmentX="Center"
-                    AlignmentY="Center"/>
-	</Window.Background>
-	
+
+    <Window.Background>
+        <DynamicResource ResourceKey="AppBackgroundBrush"/>
+    </Window.Background>
+
     <Window.DataContext>
         <vm:TopicSelectionViewModel/>
     </Window.DataContext>
@@ -24,26 +21,48 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Выберите тему" FontSize="20" FontWeight="Bold"/>
+        <TextBlock Text="{DynamicResource SelectTopicHeader}" FontSize="20" FontWeight="Bold"/>
 
         <DataGrid Grid.Row="1" Margin="0,10,0,10"
                   ItemsSource="{Binding Topics}"
                   SelectedItem="{Binding SelectedTopic}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
-                  CanUserAddRows="False">
+                  CanUserAddRows="False"
+                  ColumnHeaderStyle="{DynamicResource WrapHeaderStyle}"
+                  CellStyle="{DynamicResource WrapCellStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Тема" Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Вопросов" Binding="{Binding QuestionsCount}" Width="110"/>
-                <DataGridTextColumn Header="Билетов" Binding="{Binding TicketsCount}" Width="110"/>
+                <DataGridTextColumn Binding="{Binding Name}" Width="*">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource Topic}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding QuestionsCount}" Width="110">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource Questions}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding TicketsCount}" Width="110">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{DynamicResource Tickets}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Далее" Width="120" Height="35" Margin="5"
+            <Button Content="{DynamicResource Next}" Width="120" Height="35" Margin="5"
                     Command="{Binding NextCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-            <Button Content="Назад" Width="120" Height="35" Margin="5"
+            <Button Content="{DynamicResource Back}" Width="120" Height="35" Margin="5"
                     Command="{Binding BackCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
         </StackPanel>

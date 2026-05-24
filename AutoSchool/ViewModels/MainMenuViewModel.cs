@@ -10,11 +10,18 @@ namespace AutoSchool.ViewModels
     {
         public string WelcomeText =>
             UserSession.CurrentUser != null
-                ? $"Здравствуйте, {UserSession.CurrentUser.FirstName}!"
-                : "Здравствуйте!";
+                ? Loc.F("WelcomeFormat", UserSession.CurrentUser.FirstName)
+                : Loc.T("WelcomeGeneric");
+
+        public string InstructorText =>
+            UserSession.CurrentUser?.Instructor != null
+                ? Loc.F("YourInstructorFormat",
+                        UserSession.CurrentUser.Instructor.FirstName,
+                        UserSession.CurrentUser.Instructor.LastName)
+                : Loc.T("InstructorNotSelected");
 
         public ICommand OpenTicketsCommand { get; }
-        public ICommand OpenHistoryCommand { get; }   // <-- добавили
+        public ICommand OpenHistoryCommand { get; }
         public ICommand LogoutCommand { get; }
         public ICommand OpenInstructorCommand { get; }
         public ICommand OpenTheoryScheduleCommand { get; }
@@ -26,6 +33,12 @@ namespace AutoSchool.ViewModels
             LogoutCommand = new RelayCommand(Logout);
             OpenInstructorCommand = new RelayCommand(OpenInstructor);
             OpenTheoryScheduleCommand = new RelayCommand(OpenTheorySchedule);
+
+            LocalizationManager.LanguageChanged += (_, __) =>
+            {
+                OnPropertyChanged(nameof(WelcomeText));
+                OnPropertyChanged(nameof(InstructorText));
+            };
         }
 
         private void OpenTickets(object? parameter)
@@ -35,7 +48,7 @@ namespace AutoSchool.ViewModels
             if (parameter is Window currentWindow) currentWindow.Close();
         }
 
-        private void OpenHistory(object? parameter)   // <-- добавили
+        private void OpenHistory(object? parameter)
         {
             var w = new ResultsHistoryWindow();
             w.Show();
@@ -63,10 +76,5 @@ namespace AutoSchool.ViewModels
             w.Show();
             if (parameter is Window currentWindow) currentWindow.Close();
         }
-
-        public string InstructorText =>
-            UserSession.CurrentUser?.Instructor != null
-                ? $"Ваш инструктор: {UserSession.CurrentUser.Instructor.FirstName} {UserSession.CurrentUser.Instructor.LastName}"
-                : "Инструктор не выбран";
     }
 }

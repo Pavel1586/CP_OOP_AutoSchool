@@ -19,6 +19,7 @@ public class AdminShellViewModel : BaseViewModel
     public ICommand OpenUsersCommand { get; }
     public ICommand OpenAnalyticsCommand { get; }
     public ICommand OpenInstructorsCommand { get; }
+    public ICommand OpenTopicsCommand { get; }
 
     public AdminShellViewModel(IPageNavigationService nav)
     {
@@ -32,6 +33,7 @@ public class AdminShellViewModel : BaseViewModel
         OpenAnalyticsCommand = new RelayCommand(_ => _nav.Navigate(new AutoSchool.Views.Admin.AdminAnalyticsPage(_nav)));
         OpenUsersCommand = new RelayCommand(_ => _nav.Navigate(new AutoSchool.Views.Admin.AdminUsersPage(_nav)));
         OpenInstructorsCommand = new RelayCommand(_ => _nav.Navigate(new AutoSchool.Views.Admin.AdminInstructorsPage(_nav)));
+        OpenTopicsCommand = new RelayCommand(_ => _nav.Navigate(new AdminTopicsPage(_nav)));
     }
 
     private void Logout(object? parameter)

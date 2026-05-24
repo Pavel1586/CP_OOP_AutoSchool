@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- Login/Register/MainMenu минимум -->
+    <sys:String x:Key="Str_LoginWindowTitle">Вход</sys:String>
+    <sys:String x:Key="Str_LoginTitle">Вход в систему</sys:String>
+    <sys:String x:Key="Str_RegisterWindowTitle">Регистрация</sys:String>
+
+    <sys:String x:Key="Str_Email">Email</sys:String>
+    <sys:String x:Key="Str_Password">Пароль</sys:String>
+    <sys:String x:Key="Str_FirstName">Имя</sys:String>
+    <sys:String x:Key="Str_LastName">Фамилия</sys:String>
+    <sys:String x:Key="Str_ConfirmPassword">Подтвердите пароль</sys:String>
+
+    <sys:String x:Key="Str_Login">Войти</sys:String>
+    <sys:String x:Key="Str_Register">Регистрация</sys:String>
+    <sys:String x:Key="Str_RegisterSubmit">Зарегистрироваться</sys:String>
+    <sys:String x:Key="Str_Back">Назад</sys:String>
+
+    <sys:String x:Key="Str_MainMenuWindowTitle">Главное меню</sys:String>
+    <sys:String x:Key="Str_StartTest">Пройти тест</sys:String>
+    <sys:String x:Key="Str_History">История результатов</sys:String>
+    <sys:String x:Key="Str_SelectInstructor">Выбрать инструктора</sys:String>
+    <sys:String x:Key="Str_TheorySchedule">Расписание зачётов</sys:String>
+    <sys:String x:Key="Str_Settings">Настройки</sys:String>
+    <sys:String x:Key="Str_Logout">Выход</sys:String>
+
+    <sys:String x:Key="Str_Close">Закрыть</sys:String>
+</ResourceDictionary>

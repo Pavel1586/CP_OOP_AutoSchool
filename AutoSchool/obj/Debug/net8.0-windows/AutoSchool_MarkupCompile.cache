@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\App.xaml
-34-1369370214
+40-185623684
 
-1141301183646
+127-1701664714
 226-88929287
-MainWindow.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;Themes\Win10.xaml;Views\AdminWindow.xaml;Views\Admin\AdminAnalyticsPage.xaml;Views\Admin\AdminAnswersPage.xaml;Views\Admin\AdminInstructorsPage.xaml;Views\Admin\AdminQuestionsPage.xaml;Views\Admin\AdminResultsPage.xaml;Views\Admin\AdminTicketSelectForQuestionsPage.xaml;Views\Admin\AdminTicketsPage.xaml;Views\Admin\AdminUserSchedulePage.xaml;Views\Admin\AdminUsersPage.xaml;Views\Admin\AnswerOptionEditWindow.xaml;Views\Admin\InstructorEditWindow.xaml;Views\Admin\QuestionEditWindow.xaml;Views\Admin\TheoryCreditEditWindow.xaml;Views\Admin\TicketEditWindow.xaml;Views\Admin\UserEditWindow.xaml;Views\Controls\ThemeSwitcher.xaml;Views\InstructorSelectionWindow.xaml;Views\LoginWindow.xaml;Views\MainMenuWindow.xaml;Views\RegisterWindow.xaml;Views\ResultsHistoryWindow.xaml;Views\SettingsWindow.xaml;Views\TestPassingWindow.xaml;Views\TestResultWindow.xaml;Views\TestReviewWindow.xaml;Views\TheoryScheduleWindow.xaml;Views\TicketSelectionByTopicWindow.xaml;Views\TicketSelectionWindow.xaml;Views\TopicSelectionWindow.xaml;
+Localization\Strings.en-US.xaml;Localization\Strings.ru-RU.xaml;Localization\Strings.xaml;MainWindow.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;Themes\Win10.xaml;Views\AdminWindow.xaml;Views\Admin\AdminAnalyticsPage.xaml;Views\Admin\AdminAnswersPage.xaml;Views\Admin\AdminInstructorsPage.xaml;Views\Admin\AdminQuestionsPage.xaml;Views\Admin\AdminResultsPage.xaml;Views\Admin\AdminTicketSelectForQuestionsPage.xaml;Views\Admin\AdminTicketsPage.xaml;Views\Admin\AdminTopicsPage.xaml;Views\Admin\AdminUserSchedulePage.xaml;Views\Admin\AdminUsersPage.xaml;Views\Admin\AnswerOptionEditWindow.xaml;Views\Admin\InstructorEditWindow.xaml;Views\Admin\QuestionEditWindow.xaml;Views\Admin\TheoryCreditEditWindow.xaml;Views\Admin\TicketEditWindow.xaml;Views\Admin\TicketFillWindow.xaml;Views\Admin\TopicEditWindow.xaml;Views\Admin\UserEditWindow.xaml;Views\Controls\ThemeSwitcher.xaml;Views\InstructorSelectionWindow.xaml;Views\LoginWindow.xaml;Views\MainMenuWindow.xaml;Views\RegisterWindow.xaml;Views\ResultsHistoryWindow.xaml;Views\SettingsWindow.xaml;Views\TestPassingWindow.xaml;Views\TestResultWindow.xaml;Views\TestReviewWindow.xaml;Views\TheoryScheduleWindow.xaml;Views\TicketSelectionByTopicWindow.xaml;Views\TicketSelectionWindow.xaml;Views\TopicSelectionWindow.xaml;
 
 False
 

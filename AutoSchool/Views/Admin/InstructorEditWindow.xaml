@@ -1,107 +1,211 @@
 ﻿<Window x:Class="AutoSchool.Views.Admin.InstructorEditWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Инструктор" Height="520" Width="620"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Инструктор"
+        Width="760"
+        Height="620"
+        MinWidth="720"
+        MinHeight="560"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize">
 
-    <Grid Margin="15">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <!-- общий фон окна как в приложении -->
+    <Window.Background>
+        <DynamicResource ResourceKey="AppBackgroundBrush"/>
+    </Window.Background>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-            <Border Width="120" Height="120" CornerRadius="8" BorderBrush="#DDD" BorderThickness="1" ClipToBounds="True">
-                <Image x:Name="PhotoPreview" Stretch="UniformToFill"/>
+    <Window.Resources>
+        <!-- Подписи -->
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource SubTextBrush}"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+
+        <!-- Заголовки секций -->
+        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,10,0,8"/>
+        </Style>
+
+        <!-- Чтобы текст в полях не “резался” при твоих глобальных Padding -->
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="MinHeight" Value="34"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="MinHeight" Value="34"/>
+        </Style>
+    </Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="16">
+            <!-- Карточка формы -->
+            <Border Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14"
+                    Padding="16">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <!-- фото + кнопки -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- имя/фамилия -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- телефон/email -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- секция авто -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- марка/модель -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- кпп/категория -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- OK/Cancel -->
+                    </Grid.RowDefinitions>
+
+                    <!-- ===== Фото ===== -->
+                    <Grid Grid.Row="0" Margin="0,0,0,14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Width="130" Height="130"
+                                CornerRadius="10"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                Background="{DynamicResource Surface2Brush}"
+                                ClipToBounds="True">
+                            <Image x:Name="PhotoPreview" Stretch="UniformToFill"/>
+                        </Border>
+
+                        <StackPanel Grid.Column="2">
+                            <WrapPanel Margin="0,0,0,8">
+                                <Button Content="Загрузить фото"
+                                        MinWidth="170"
+                                        Height="36"
+                                        Margin="0,0,10,0"
+                                        Click="LoadPhoto_Click"/>
+                                <Button Content="Удалить фото"
+                                        MinWidth="170"
+                                        Height="36"
+                                        Click="ClearPhoto_Click"/>
+                            </WrapPanel>
+
+                            <TextBlock Text="JPG/PNG, хранится в БД"
+                                       Foreground="{DynamicResource SubTextBrush}"
+                                       Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- ===== Имя / Фамилия ===== -->
+                    <Grid Grid.Row="1" Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Имя" Style="{StaticResource LabelStyle}"/>
+                            <TextBox x:Name="FirstNameBox"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Фамилия" Style="{StaticResource LabelStyle}"/>
+                            <TextBox x:Name="LastNameBox"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- ===== Телефон / Email ===== -->
+                    <Grid Grid.Row="2" Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Телефон" Style="{StaticResource LabelStyle}"/>
+                            <TextBox x:Name="PhoneBox"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Email" Style="{StaticResource LabelStyle}"/>
+                            <TextBox x:Name="EmailBox"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- ===== Авто секция ===== -->
+                    <TextBlock Grid.Row="3"
+                               Text="Автомобиль/мотоцикл"
+                               Style="{StaticResource SectionTitleStyle}"/>
+
+                    <!-- ===== Марка / Модель ===== -->
+                    <Grid Grid.Row="4" Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Марка" Style="{StaticResource LabelStyle}"/>
+                            <TextBox x:Name="BrandBox"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Модель" Style="{StaticResource LabelStyle}"/>
+                            <TextBox x:Name="ModelBox"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- ===== КПП / Категория ===== -->
+                    <Grid Grid.Row="5" Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="КПП" Style="{StaticResource LabelStyle}"/>
+                            <ComboBox x:Name="TransmissionBox">
+                                <ComboBoxItem Tag="Manual" Content="Механика"/>
+                                <ComboBoxItem Tag="Automatic" Content="Автомат"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Категория (A/B/C...)" Style="{StaticResource LabelStyle}"/>
+                            <TextBox x:Name="CategoryBox" Text="B"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- ===== OK / Cancel ===== -->
+                    <StackPanel Grid.Row="6"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Margin="0,14,0,0">
+                        <Button Content="OK"
+                                Width="140"
+                                Height="38"
+                                Margin="8,0"
+                                Click="Ok_Click"/>
+                        <Button Content="Отмена"
+                                Width="140"
+                                Height="38"
+                                Margin="8,0"
+                                Click="Cancel_Click"/>
+                    </StackPanel>
+
+                </Grid>
             </Border>
-            <StackPanel Margin="12,0,0,0">
-                <Button Content="Загрузить фото" Width="140" Height="32" Margin="0,0,0,6" Click="LoadPhoto_Click"/>
-                <Button Content="Удалить фото" Width="140" Height="32" Click="ClearPhoto_Click"/>
-                <TextBlock Foreground="Gray" Margin="0,10,0,0" Text="JPG/PNG, хранится в БД"/>
-            </StackPanel>
-        </StackPanel>
-
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Margin="0,0,8,0">
-                <TextBlock Text="Имя"/>
-                <TextBox x:Name="FirstNameBox" Height="28"/>
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                <TextBlock Text="Фамилия"/>
-                <TextBox x:Name="LastNameBox" Height="28"/>
-            </StackPanel>
         </Grid>
-
-        <Grid Grid.Row="2" Margin="0,10,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Margin="0,0,8,0">
-                <TextBlock Text="Телефон"/>
-                <TextBox x:Name="PhoneBox" Height="28"/>
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                <TextBlock Text="Email"/>
-                <TextBox x:Name="EmailBox" Height="28"/>
-            </StackPanel>
-        </Grid>
-
-        <TextBlock Grid.Row="3" Margin="0,12,0,0" Text="Автомобиль/мотоцикл"/>
-
-        <Grid Grid.Row="4" Margin="0,6,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Margin="0,0,8,0">
-                <TextBlock Text="Марка"/>
-                <TextBox x:Name="BrandBox" Height="28"/>
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                <TextBlock Text="Модель"/>
-                <TextBox x:Name="ModelBox" Height="28"/>
-            </StackPanel>
-        </Grid>
-
-        <Grid Grid.Row="5" Margin="0,10,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Margin="0,0,8,0">
-                <TextBlock Text="КПП"/>
-                <ComboBox x:Name="TransmissionBox" Height="28">
-                    <ComboBoxItem Tag="Manual" Content="Механика"/>
-                    <ComboBoxItem Tag="Automatic" Content="Автомат"/>
-                </ComboBox>
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                <TextBlock Text="Категория (A/B/C...)"/>
-                <TextBox x:Name="CategoryBox" Height="28" Text="B"/>
-            </StackPanel>
-        </Grid>
-
-        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,18,0,0">
-            <Button Content="OK" Width="110" Height="35" Margin="5" Click="Ok_Click"/>
-            <Button Content="Отмена" Width="110" Height="35" Margin="5" Click="Cancel_Click"/>
-        </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Window>

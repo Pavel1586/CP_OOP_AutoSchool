@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using AutoSchool.ViewModels.Admin;
 
 namespace AutoSchool.Views.Admin
 {
@@ -10,75 +8,30 @@ namespace AutoSchool.Views.Admin
         public AdminQuestionsPage()
         {
             InitializeComponent();
+            DataContext ??= new AdminQuestionsEditorViewModel(null, null);
         }
 
-        // НУЖНО для вызовов new AdminQuestionsPage(arg1, arg2)
+        // Совместимость: страницу могут создавать как new AdminQuestionsPage(arg1, arg2)
         public AdminQuestionsPage(object? arg1, object? arg2) : this()
         {
-            InitFromArgs(arg1, arg2);
+            // Если явно передали наш новый VM — используем его
+            if (arg1 is AdminQuestionsEditorViewModel vm1) { DataContext = vm1; return; }
+            if (arg2 is AdminQuestionsEditorViewModel vm2) { DataContext = vm2; return; }
+
+            // Иначе пытаемся извлечь nav и ticketId и создаём НАШ VM
+            var (nav, ticketId) = ExtractNavAndTicketId(arg1, arg2);
+            DataContext = new AdminQuestionsEditorViewModel(nav, ticketId);
         }
 
-        private void InitFromArgs(object? arg1, object? arg2)
+        private static (object? nav, int? ticketId) ExtractNavAndTicketId(object? a, object? b)
         {
-            // 1) Если передали ViewModel — просто используем её
-            if (LooksLikeViewModel(arg1)) { DataContext = arg1; return; }
-            if (LooksLikeViewModel(arg2)) { DataContext = arg2; return; }
-
-            // 2) Если передали nav + ticketId (в любом порядке) — попробуем создать VM автоматически
-            var nav = arg1 ?? arg2;
+            object? nav = null;
             int? ticketId = null;
 
-            if (arg1 is int i1) ticketId = i1;
-            if (arg2 is int i2) ticketId = i2;
+            if (a is int ia) ticketId = ia; else nav = a;
+            if (b is int ib) ticketId = ib; else if (nav == null) nav = b;
 
-            if (ticketId.HasValue && nav != null)
-                TryCreateAdminQuestionsViewModel(nav, ticketId.Value);
-        }
-
-        private static bool LooksLikeViewModel(object? obj)
-        {
-            if (obj == null) return false;
-            var t = obj.GetType();
-            return t.Name.EndsWith("ViewModel", StringComparison.OrdinalIgnoreCase);
-        }
-
-        private void TryCreateAdminQuestionsViewModel(object nav, int ticketId)
-        {
-            // Пытаемся найти AutoSchool.ViewModels.Admin.AdminQuestionsViewModel
-            var asm = Assembly.GetExecutingAssembly();
-            var vmType = asm.GetType("AutoSchool.ViewModels.Admin.AdminQuestionsViewModel");
-            if (vmType == null) return;
-
-            // Ищем конструктор (nav, int) или (int, nav)
-            var ctors = vmType.GetConstructors();
-
-            foreach (var ctor in ctors)
-            {
-                var p = ctor.GetParameters();
-                if (p.Length != 2) continue;
-
-                // (nav, int)
-                if (p[0].ParameterType.IsInstanceOfType(nav) && p[1].ParameterType == typeof(int))
-                {
-                    DataContext = ctor.Invoke(new object[] { nav, ticketId });
-                    return;
-                }
-
-                // (int, nav)
-                if (p[0].ParameterType == typeof(int) && p[1].ParameterType.IsInstanceOfType(nav))
-                {
-                    DataContext = ctor.Invoke(new object[] { ticketId, nav });
-                    return;
-                }
-            }
-
-            // Если нужного конструктора нет — ничего не делаем (VM может задаваться снаружи)
-        }
-
-        // Если в XAML стоит SelectionChanged="DataGrid_SelectionChanged" — метод должен существовать
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Можно оставить пустым (SelectedItem уже биндингом уходит в VM)
+            return (nav, ticketId);
         }
     }
 }

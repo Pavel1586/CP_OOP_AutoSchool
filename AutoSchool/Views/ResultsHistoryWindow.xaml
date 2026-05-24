@@ -2,63 +2,95 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:AutoSchool.ViewModels"
-        Title="История результатов" Height="420" Width="650"
+        Title="{DynamicResource ResultsHistoryWindowTitle}"
+        Height="420" Width="650"
         WindowStartupLocation="CenterScreen">
-	
-	<!-- ФОН ОКНА -->
-	<Window.Background>
-		<ImageBrush ImageSource="/Assets/background.png"
-                    Stretch="Fill"
-                    AlignmentX="Center"
-                    AlignmentY="Center"/>
-	</Window.Background>
-	
-	<Window.DataContext>
-		<vm:ResultsHistoryViewModel/>
-	</Window.DataContext>
 
-	<Grid Margin="15">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
+    <Window.Background>
+        <DynamicResource ResourceKey="AppBackgroundBrush"/>
+    </Window.Background>
 
-		<TextBlock Text="История результатов" FontSize="20" FontWeight="Bold" />
+    <Window.DataContext>
+        <vm:ResultsHistoryViewModel/>
+    </Window.DataContext>
 
-		<Grid Grid.Row="1" Margin="0,10,0,10">
-			<DataGrid ItemsSource="{Binding Results}"
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{DynamicResource ResultsHistoryHeader}" FontSize="20" FontWeight="Bold"/>
+
+        <Grid Grid.Row="1" Margin="0,10,0,10">
+            <DataGrid ItemsSource="{Binding Results}"
                       SelectedItem="{Binding SelectedResult}"
                       AutoGenerateColumns="False"
                       IsReadOnly="True"
-                      CanUserAddRows="False">
-				<DataGrid.Columns>
-					<DataGridTextColumn Header="Дата" Binding="{Binding PassedAt}" Width="*"/>
-					<DataGridTextColumn Header="Билет" Binding="{Binding TicketTitle}" Width="*"/>
-					<DataGridTextColumn Header="Правильных" Binding="{Binding Correct}" Width="*"/>
-					<DataGridTextColumn Header="Ошибок" Binding="{Binding Wrong}" Width="*"/>
-					<DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*"/>
-				</DataGrid.Columns>
-			</DataGrid>
+                      CanUserAddRows="False"
+                      ColumnHeaderStyle="{DynamicResource WrapHeaderStyle}"
+                      CellStyle="{DynamicResource WrapCellStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding PassedAt}" Width="*">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource Date}"/>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
 
-			<!-- Сообщение, если история пуста -->
-			<TextBlock Text="История пуста. Пройдите тест, чтобы появились результаты."
+                    <DataGridTextColumn Binding="{Binding TicketTitle}" Width="*">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource Ticket}"/>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Correct}" Width="*">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource CorrectCount}"/>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Wrong}" Width="*">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource WrongCount}"/>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Status}" Width="*">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource Status}"/>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBlock Text="{DynamicResource EmptyHistory}"
                        Visibility="{Binding EmptyVisibility}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       Foreground="Gray"
+                       Foreground="{DynamicResource SubTextBrush}"
                        FontSize="14"
                        TextWrapping="Wrap"
                        Margin="20"/>
-		</Grid>
+        </Grid>
 
-		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button Content="Открыть" Width="120" Height="35" Margin="5"
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="{DynamicResource Open}" Width="120" Height="35" Margin="5"
                     Command="{Binding OpenSelectedCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-			<Button Content="Назад" Width="120" Height="35" Margin="5"
+            <Button Content="{DynamicResource Back}" Width="120" Height="35" Margin="5"
                     Command="{Binding BackCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-		</StackPanel>
-	</Grid>
+        </StackPanel>
+    </Grid>
 </Window>

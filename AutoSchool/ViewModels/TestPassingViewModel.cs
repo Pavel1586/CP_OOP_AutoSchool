@@ -14,39 +14,22 @@ using AutoSchool.Views;
 
 namespace AutoSchool.ViewModels;
 
-public enum QuestionAnswerState
-{
-    None = 0,
-    Correct = 1,
-    Wrong = 2
-}
+public enum QuestionAnswerState { None = 0, Correct = 1, Wrong = 2 }
 
 public sealed class QuestionNavItem : BaseViewModel
 {
-    public int Index { get; init; }          // 0..9
+    public int Index { get; init; }
     public int QuestionId { get; init; }
-    public int Number { get; init; }         // 1..10
+    public int Number { get; init; }
 
     private bool _isCurrent;
-    public bool IsCurrent
-    {
-        get => _isCurrent;
-        set { _isCurrent = value; OnPropertyChanged(); }
-    }
+    public bool IsCurrent { get => _isCurrent; set { _isCurrent = value; OnPropertyChanged(); } }
 
     private bool _hasSelection;
-    public bool HasSelection
-    {
-        get => _hasSelection;
-        set { _hasSelection = value; OnPropertyChanged(); }
-    }
+    public bool HasSelection { get => _hasSelection; set { _hasSelection = value; OnPropertyChanged(); } }
 
     private bool _isCommitted;
-    public bool IsCommitted
-    {
-        get => _isCommitted;
-        set { _isCommitted = value; OnPropertyChanged(); }
-    }
+    public bool IsCommitted { get => _isCommitted; set { _isCommitted = value; OnPropertyChanged(); } }
 
     private QuestionAnswerState _state = QuestionAnswerState.None;
     public QuestionAnswerState State
@@ -74,13 +57,11 @@ public class TestPassingViewModel : BaseViewModel
     private readonly ITestService _testService;
 
     private int _mistakes;
-
     private readonly HashSet<int> _committedQuestions = new();
     private readonly Dictionary<int, int?> _selectedOptionByQuestionId = new();
 
     private List<Question> _questions;
     private int _currentIndex;
-
     private Question _currentQuestion = null!;
     private AnswerOption? _selectedOption;
 
@@ -90,7 +71,7 @@ public class TestPassingViewModel : BaseViewModel
     private bool _isRestoringSelection;
     private bool _confirmNextPending;
 
-    // ====== FEEDBACK ======
+    // ===== FEEDBACK =====
     private QuestionAnswerState _feedbackState = QuestionAnswerState.None;
 
     public bool IsFeedbackVisible => _feedbackState != QuestionAnswerState.None;
@@ -99,8 +80,8 @@ public class TestPassingViewModel : BaseViewModel
 
     public string FeedbackText => _feedbackState switch
     {
-        QuestionAnswerState.Correct => "ПРАВИЛЬНО",
-        QuestionAnswerState.Wrong => "НЕПРАВИЛЬНО",
+        QuestionAnswerState.Correct => Loc.T("Str_CorrectUpper"),
+        QuestionAnswerState.Wrong => Loc.T("Str_WrongUpper"),
         _ => ""
     };
 
@@ -115,7 +96,7 @@ public class TestPassingViewModel : BaseViewModel
 
     private void ClearFeedback() => SetFeedback(QuestionAnswerState.None);
 
-    // ====== RESULT OVERLAY (внутри окна теста) ======
+    // ===== RESULT OVERLAY =====
     private bool _isResultVisible;
     public bool IsResultVisible
     {
@@ -132,14 +113,11 @@ public class TestPassingViewModel : BaseViewModel
     public object? ResultContent
     {
         get => _resultContent;
-        private set
-        {
-            _resultContent = value;
-            OnPropertyChanged();
-        }
+        private set { _resultContent = value; OnPropertyChanged(); }
     }
 
     public string TicketTitle { get; }
+
     public ObservableCollection<QuestionNavItem> QuestionNav { get; } = new();
 
     public Question CurrentQuestion
@@ -158,9 +136,7 @@ public class TestPassingViewModel : BaseViewModel
         get => _selectedOption;
         set
         {
-            if (!_isRestoringSelection &&
-                CurrentQuestion != null &&
-                _committedQuestions.Contains(CurrentQuestion.Id))
+            if (!_isRestoringSelection && CurrentQuestion != null && _committedQuestions.Contains(CurrentQuestion.Id))
                 return;
 
             _selectedOption = value;
@@ -178,13 +154,14 @@ public class TestPassingViewModel : BaseViewModel
 
     public bool IsOptionsEnabled => CurrentQuestion != null && !_committedQuestions.Contains(CurrentQuestion.Id);
 
-    public string ProgressText => _questions.Count == 0 ? "" : $"Вопрос {(_currentIndex + 1)} из {_questions.Count}";
+    public string ProgressText => _questions.Count == 0 ? "" : Loc.F("Str_QuestionXOfY", _currentIndex + 1, _questions.Count);
+
     public string TimeLeftText => _timeLeft.ToString(@"mm\:ss");
 
     public string ConfirmButtonText =>
         _confirmNextPending
-            ? (_currentIndex == _questions.Count - 1 ? "Результат" : "Следующий")
-            : "Подтвердить";
+            ? (_currentIndex == _questions.Count - 1 ? Loc.T("Str_Result") : Loc.T("Str_NextQuestion"))
+            : Loc.T("Str_Confirm");
 
     public ICommand NextCommand { get; }
     public ICommand PrevCommand { get; }
@@ -197,6 +174,13 @@ public class TestPassingViewModel : BaseViewModel
     public TestPassingViewModel(int ticketId, ITestService testService)
     {
         _testService = testService;
+
+        LocalizationManager.LanguageChanged += (_, __) =>
+        {
+            OnPropertyChanged(nameof(ProgressText));
+            OnPropertyChanged(nameof(FeedbackText));
+            OnPropertyChanged(nameof(ConfirmButtonText));
+        };
 
         var ticket = _testService.GetTicketForTest(ticketId);
         TicketTitle = ticket.Title;
@@ -214,17 +198,15 @@ public class TestPassingViewModel : BaseViewModel
 
         if (_questions.Count < QuestionsPerTicket)
         {
-            MessageBox.Show($"В билете недостаточно вопросов. Нужно: {QuestionsPerTicket}, сейчас: {_questions.Count}");
+            MessageBox.Show(Loc.F("Msg_NotEnoughQuestionsFormat", QuestionsPerTicket, _questions.Count));
             _questions = new List<Question>();
-            _currentQuestion = new Question { Text = "Нет вопросов", AnswerOptions = new List<AnswerOption>() };
-
+            _currentQuestion = new Question { Text = "—", AnswerOptions = new List<AnswerOption>() };
             _timeLeft = TimeLimit;
             _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             return;
         }
 
         BuildNav();
-
         _currentIndex = 0;
         CurrentQuestion = _questions[_currentIndex];
         SyncCurrentInNav();
@@ -340,7 +322,6 @@ public class TestPassingViewModel : BaseViewModel
         {
             _confirmNextPending = false;
             OnPropertyChanged(nameof(ConfirmButtonText));
-
             ClearFeedback();
 
             if (_currentIndex < _questions.Count - 1)
@@ -356,7 +337,7 @@ public class TestPassingViewModel : BaseViewModel
 
         if (SelectedOption == null)
         {
-            MessageBox.Show("Выберите вариант ответа.");
+            MessageBox.Show(Loc.T("Msg_SelectOption"));
             return;
         }
 
@@ -371,7 +352,6 @@ public class TestPassingViewModel : BaseViewModel
         }
 
         bool isCorrect = SelectedOption.IsCorrect;
-
         _committedQuestions.Add(qId);
 
         var nav = QuestionNav.First(x => x.QuestionId == qId);
@@ -379,7 +359,6 @@ public class TestPassingViewModel : BaseViewModel
         nav.State = isCorrect ? QuestionAnswerState.Correct : QuestionAnswerState.Wrong;
 
         OnPropertyChanged(nameof(IsOptionsEnabled));
-
         SetFeedback(isCorrect ? QuestionAnswerState.Correct : QuestionAnswerState.Wrong);
 
         if (!isCorrect)
@@ -397,13 +376,10 @@ public class TestPassingViewModel : BaseViewModel
         OnPropertyChanged(nameof(ConfirmButtonText));
     }
 
-    // ВАЖНО: здесь НЕТ Show() — отдельное окно результата не всплывёт
     private void SaveAndShowResultInsideCurrentWindow()
     {
         if (IsResultVisible) return;
-
-        if (UserSession.CurrentUser == null || _questions.Count == 0)
-            return;
+        if (UserSession.CurrentUser == null || _questions.Count == 0) return;
 
         var map = _questions.ToDictionary(
             q => q.Id,
@@ -413,25 +389,22 @@ public class TestPassingViewModel : BaseViewModel
         int testResultId = _testService.SaveTicketTestResult(
             UserSession.CurrentUser.Id,
             _questions.First().TicketId,
-            map);
+            map
+        );
 
-        // Создаём окно результата, но НЕ показываем его.
         var resultWindow = new TestResultWindow(testResultId);
-
         try
         {
             if (resultWindow.Content is FrameworkElement root)
             {
                 root.DataContext = resultWindow.DataContext;
 
-                // если в окне результата есть ресурсы, перенесём их на корень
                 foreach (var key in resultWindow.Resources.Keys)
                     root.Resources[key] = resultWindow.Resources[key];
 
                 foreach (var md in resultWindow.Resources.MergedDictionaries)
                     root.Resources.MergedDictionaries.Add(md);
 
-                // отсоединяем от окна (иначе будет "у элемента уже есть родитель")
                 resultWindow.Content = null;
 
                 ResultContent = root;
@@ -439,13 +412,12 @@ public class TestPassingViewModel : BaseViewModel
             }
             else
             {
-                // Без всплывающих окон: просто покажем текст внутри overlay
                 ResultContent = new Border
                 {
                     Padding = new Thickness(20),
-                    Child = new TextBlock
+                    Child = new System.Windows.Controls.TextBlock
                     {
-                        Text = "Не удалось отобразить результат внутри окна теста.",
+                        Text = Loc.T("Msg_ShowResultFailed"),
                         FontSize = 16,
                         TextWrapping = TextWrapping.Wrap
                     }
@@ -455,7 +427,6 @@ public class TestPassingViewModel : BaseViewModel
         }
         finally
         {
-            // На всякий случай освобождаем окно (оно не показывалось)
             resultWindow.Close();
         }
     }
@@ -474,8 +445,8 @@ public class TestPassingViewModel : BaseViewModel
         var currentWindow = parameter as Window ?? GetCurrentWindow();
 
         var res = MessageBox.Show(
-            "Выйти из теста? Результат не будет сохранён.",
-            "Выход",
+            Loc.T("Msg_ExitTestText"),
+            Loc.T("Msg_ExitTestTitle"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
 

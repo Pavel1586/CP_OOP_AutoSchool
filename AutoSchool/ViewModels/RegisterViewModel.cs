@@ -48,7 +48,6 @@ namespace AutoSchool.ViewModels
             set { _confirmPassword = value; OnPropertyChanged(); AuthError = ""; ValidateConfirmPassword(); }
         }
 
-        // --- errors ---
         private string _firstNameError = "";
         public string FirstNameError { get => _firstNameError; private set { _firstNameError = value; OnPropertyChanged(); } }
 
@@ -74,26 +73,38 @@ namespace AutoSchool.ViewModels
         {
             RegisterCommand = new RelayCommand(Register);
             BackCommand = new RelayCommand(Back);
+
+            LocalizationManager.LanguageChanged += (_, __) =>
+            {
+                ValidateFirstName();
+                ValidateLastName();
+                ValidateEmail();
+                ValidatePassword();
+                ValidateConfirmPassword();
+
+                if (!string.IsNullOrWhiteSpace(AuthError))
+                    AuthError = Loc.T("Err_UserExists");
+            };
         }
 
         private void ValidateFirstName()
         {
             if (!_showErrors && string.IsNullOrWhiteSpace(FirstName)) { FirstNameError = ""; return; }
-            FirstNameError = string.IsNullOrWhiteSpace(FirstName) ? "Введите имя." : "";
+            FirstNameError = string.IsNullOrWhiteSpace(FirstName) ? Loc.T("Err_EnterFirstName") : "";
         }
 
         private void ValidateLastName()
         {
             if (!_showErrors && string.IsNullOrWhiteSpace(LastName)) { LastNameError = ""; return; }
-            LastNameError = string.IsNullOrWhiteSpace(LastName) ? "Введите фамилию." : "";
+            LastNameError = string.IsNullOrWhiteSpace(LastName) ? Loc.T("Err_EnterLastName") : "";
         }
 
         private void ValidateEmail()
         {
             if (!_showErrors && string.IsNullOrWhiteSpace(Email)) { EmailError = ""; return; }
 
-            if (string.IsNullOrWhiteSpace(Email)) EmailError = "Введите email.";
-            else if (!Regex.IsMatch(Email.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$")) EmailError = "Некорректный формат email.";
+            if (string.IsNullOrWhiteSpace(Email)) EmailError = Loc.T("Err_EnterEmail");
+            else if (!Regex.IsMatch(Email.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$")) EmailError = Loc.T("Err_InvalidEmail");
             else EmailError = "";
         }
 
@@ -111,36 +122,23 @@ namespace AutoSchool.ViewModels
 
             if (string.IsNullOrWhiteSpace(ConfirmPassword))
             {
-                ConfirmPasswordError = "Подтвердите пароль.";
+                ConfirmPasswordError = Loc.T("Err_ConfirmPassword");
                 return;
             }
 
-            ConfirmPasswordError = Password == ConfirmPassword ? "" : "Пароли не совпадают.";
+            ConfirmPasswordError = Password == ConfirmPassword ? "" : Loc.T("Err_PasswordsNotMatch");
         }
 
         private static (bool ok, string message) ValidatePasswordRules(string password)
         {
-            if (string.IsNullOrWhiteSpace(password))
-                return (false, "Введите пароль.");
+            if (string.IsNullOrWhiteSpace(password)) return (false, Loc.T("Err_EnterPassword"));
+            if (password.Length < 8 || password.Length > 20) return (false, Loc.T("Err_PwdLen"));
 
-            if (password.Length < 8 || password.Length > 20)
-                return (false, "Пароль: 8–20 символов.");
-
-            // ASCII 0x21..0x7E (без пробелов, кириллицы и т.п.)
-            if (!Regex.IsMatch(password, @"^[\u0021-\u007E]+$"))
-                return (false, "Только латиница/ASCII, без пробелов.");
-
-            if (!Regex.IsMatch(password, @"[A-Z]"))
-                return (false, "Добавьте заглавную букву (A-Z).");
-
-            if (!Regex.IsMatch(password, @"[a-z]"))
-                return (false, "Добавьте строчную букву (a-z).");
-
-            if (!Regex.IsMatch(password, @"\d"))
-                return (false, "Добавьте цифру.");
-
-            if (!Regex.IsMatch(password, @"[^A-Za-z0-9]"))
-                return (false, "Добавьте спецсимвол.");
+            if (!Regex.IsMatch(password, @"^[\u0021-\u007E]+$")) return (false, Loc.T("Err_PwdAscii"));
+            if (!Regex.IsMatch(password, @"[A-Z]")) return (false, Loc.T("Err_PwdUpper"));
+            if (!Regex.IsMatch(password, @"[a-z]")) return (false, Loc.T("Err_PwdLower"));
+            if (!Regex.IsMatch(password, @"\d")) return (false, Loc.T("Err_PwdDigit"));
+            if (!Regex.IsMatch(password, @"[^A-Za-z0-9]")) return (false, Loc.T("Err_PwdSpec"));
 
             return (true, "");
         }
@@ -148,7 +146,6 @@ namespace AutoSchool.ViewModels
         private bool ValidateAll()
         {
             _showErrors = true;
-
             ValidateFirstName();
             ValidateLastName();
             ValidateEmail();
@@ -164,8 +161,7 @@ namespace AutoSchool.ViewModels
 
         private void Register(object? parameter)
         {
-            if (!ValidateAll())
-                return;
+            if (!ValidateAll()) return;
 
             try
             {
@@ -173,24 +169,21 @@ namespace AutoSchool.ViewModels
                     FirstName.Trim(),
                     LastName.Trim(),
                     Email.Trim(),
-                    Password
-                );
+                    Password);
 
                 if (!success)
                 {
-                    AuthError = "Пользователь с таким email уже существует.";
+                    AuthError = Loc.T("Err_UserExists");
                     return;
                 }
 
-                // успех — переходим на логин
                 var w = new LoginWindow();
                 w.Show();
                 if (parameter is Window currentWindow) currentWindow.Close();
             }
             catch (Exception ex)
             {
-                // непредвиденная ошибка (БД и т.п.)
-                MessageBox.Show(ex.ToString(), "Ошибка регистрации", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Registration error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

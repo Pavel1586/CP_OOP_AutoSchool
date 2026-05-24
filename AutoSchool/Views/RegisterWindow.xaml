@@ -2,20 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:AutoSchool.ViewModels"
-        Title="Регистрация"
-        Height="650"
-        Width="500"
+        Title="{DynamicResource RegisterWindowTitle}"
+        Height="650" Width="500"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
 
-    <!-- ФОН ОКНА -->
     <Window.Background>
-        <ImageBrush ImageSource="/Assets/background.png"
-                    Stretch="Fill"
-                    AlignmentX="Center"
-                    AlignmentY="Center"/>
+        <DynamicResource ResourceKey="AppBackgroundBrush"/>
     </Window.Background>
-    
+
     <Window.DataContext>
         <vm:RegisterViewModel />
     </Window.DataContext>
@@ -28,58 +23,57 @@
 
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <TextBlock Text="Регистрация"
+                    <TextBlock Text="{DynamicResource Register}"
                                Style="{StaticResource AppTitleTextStyle}" />
 
                     <StackPanel Margin="0,0,0,10">
-                        <TextBlock Text="Имя" Style="{StaticResource AppFormLabelStyle}" />
-                        <TextBox Height="34"
+                        <TextBlock Text="{DynamicResource FirstName}"
+                                   Style="{StaticResource AppFormLabelStyle}" />
+                        <TextBox MinHeight="38"
                                  Style="{StaticResource AppValidationTextBoxStyle}"
                                  Tag="{Binding FirstNameError}"
                                  Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Text="{Binding FirstNameError}"
-                                   Style="{StaticResource AppErrorTextStyle}" />
+                        <TextBlock Text="{Binding FirstNameError}" Style="{StaticResource AppErrorTextStyle}" />
                     </StackPanel>
 
                     <StackPanel Margin="0,0,0,10">
-                        <TextBlock Text="Фамилия" Style="{StaticResource AppFormLabelStyle}" />
-                        <TextBox Height="34"
+                        <TextBlock Text="{DynamicResource LastName}"
+                                   Style="{StaticResource AppFormLabelStyle}" />
+                        <TextBox MinHeight="38"
                                  Style="{StaticResource AppValidationTextBoxStyle}"
                                  Tag="{Binding LastNameError}"
                                  Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Text="{Binding LastNameError}"
-                                   Style="{StaticResource AppErrorTextStyle}" />
+                        <TextBlock Text="{Binding LastNameError}" Style="{StaticResource AppErrorTextStyle}" />
                     </StackPanel>
 
                     <StackPanel Margin="0,0,0,10">
-                        <TextBlock Text="Email" Style="{StaticResource AppFormLabelStyle}" />
-                        <TextBox Height="34"
+                        <TextBlock Text="{DynamicResource Email}"
+                                   Style="{StaticResource AppFormLabelStyle}" />
+                        <TextBox MinHeight="38"
                                  Style="{StaticResource AppValidationTextBoxStyle}"
                                  Tag="{Binding EmailError}"
                                  Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Text="{Binding EmailError}"
-                                   Style="{StaticResource AppErrorTextStyle}" />
+                        <TextBlock Text="{Binding EmailError}" Style="{StaticResource AppErrorTextStyle}" />
                     </StackPanel>
 
                     <StackPanel Margin="0,0,0,10">
-                        <TextBlock Text="Пароль" Style="{StaticResource AppFormLabelStyle}" />
+                        <TextBlock Text="{DynamicResource Password}"
+                                   Style="{StaticResource AppFormLabelStyle}" />
                         <PasswordBox x:Name="PasswordBox"
-                                     Height="34"
+                                     MinHeight="38"
                                      Style="{StaticResource AppValidationPasswordBoxStyle}"
                                      Tag="{Binding PasswordError}" />
-                        <TextBlock Text="{Binding PasswordError}"
-                                   Style="{StaticResource AppErrorTextStyle}" />
+                        <TextBlock Text="{Binding PasswordError}" Style="{StaticResource AppErrorTextStyle}" />
                     </StackPanel>
 
                     <StackPanel Margin="0,0,0,10">
-                        <TextBlock Text="Подтвердите пароль"
+                        <TextBlock Text="{DynamicResource ConfirmPassword}"
                                    Style="{StaticResource AppFormLabelStyle}" />
                         <PasswordBox x:Name="ConfirmPasswordBox"
-                                     Height="34"
+                                     MinHeight="38"
                                      Style="{StaticResource AppValidationPasswordBoxStyle}"
                                      Tag="{Binding ConfirmPasswordError}" />
-                        <TextBlock Text="{Binding ConfirmPasswordError}"
-                                   Style="{StaticResource AppErrorTextStyle}" />
+                        <TextBlock Text="{Binding ConfirmPasswordError}" Style="{StaticResource AppErrorTextStyle}" />
                     </StackPanel>
 
                     <TextBlock Text="{Binding AuthError}"
@@ -88,23 +82,20 @@
                                TextWrapping="Wrap" />
 
                     <StackPanel Style="{StaticResource AppBottomButtonsStyle}">
-                        <Button Content="Зарегистрироваться"
+                        <Button Content="{DynamicResource RegisterSubmit}"
                                 Style="{StaticResource Win10PrimaryButton}"
-                                Width="180"
-                                Height="36"
-                                Margin="5"
+                                Width="180" Height="36" Margin="5"
                                 Command="{Binding RegisterCommand}"
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
 
-                        <Button Content="Назад"
-                                Width="120"
-                                Height="36"
-                                Margin="5"
+                        <Button Content="{DynamicResource Back}"
+                                Width="120" Height="36" Margin="5"
                                 Command="{Binding BackCommand}"
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
+
         </Border>
     </Grid>
 </Window>

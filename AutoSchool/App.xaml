@@ -7,25 +7,17 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <!-- Глобальный фон приложения -->
-            <ImageBrush x:Key="AppBackgroundBrush"
-                        ImageSource="/Assets/background.png"
-                        AlignmentX="Center"
-                        AlignmentY="Center"
-                        Stretch="Fill"
-                        Opacity="1"/>
-
-            <!-- Курсор -->
-            <Cursor x:Key="AppCursor">pack://application:,,,/Assets/custom1.cur</Cursor>
+            <!-- чтобы не падало на custom1.cur -->
+            <Cursor x:Key="AppCursor">Arrow</Cursor>
 
             <infra:ByteArrayToImageSourceConverter x:Key="BytesToImage" />
 
             <ResourceDictionary.MergedDictionaries>
-                <!-- если Win10.xaml нужен — оставляй -->
                 <ResourceDictionary Source="Themes/Win10.xaml" />
-
-                <!-- ТЕМА ПО УМОЛЧАНИЮ -->
                 <ResourceDictionary Source="Themes/LightTheme.xaml" />
+
+                <!-- RU всегда базовый -->
+                <ResourceDictionary Source="Localization/Strings.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>

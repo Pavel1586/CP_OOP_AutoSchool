@@ -21,7 +21,6 @@ public partial class AdminWindow : Window
         var nav = new FramePageNavigationService(MainFrame);
         DataContext = new AdminShellViewModel(nav);
 
-        // стартуем с билетов
         ((AdminShellViewModel)DataContext).OpenTicketsCommand.Execute(null);
     }
 
@@ -32,8 +31,6 @@ public partial class AdminWindow : Window
 
     private void ApplyAdminBackground()
     {
-        // Эти файлы должны существовать и быть Resource:
-        // Assets/admin_light.png и Assets/admin_dark.png
         string uri = ThemeManager.CurrentTheme == AppTheme.Dark
             ? "pack://application:,,,/Assets/background2.png"
             : "pack://application:,,,/Assets/background.png";
@@ -64,7 +61,7 @@ public partial class AdminWindow : Window
             };
             brush.Freeze();
 
-            return brush; // <- возвращаем как Brush
+            return brush;
         }
         catch
         {

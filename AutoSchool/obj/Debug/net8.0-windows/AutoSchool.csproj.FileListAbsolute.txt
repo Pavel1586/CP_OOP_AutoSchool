@@ -106,6 +106,8 @@ D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\bin\Debug\
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\bin\Debug\net8.0-windows\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\bin\Debug\net8.0-windows\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\AutoSchool.csproj.AssemblyReference.cache
+D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Localization\Strings.en-US.baml
+D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Localization\Strings.ru-RU.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Themes\DarkTheme.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Themes\LightTheme.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Themes\Win10.baml
@@ -116,6 +118,7 @@ D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminResultsPage.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminTicketSelectForQuestionsPage.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminTicketsPage.baml
+D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminTopicsPage.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminUserSchedulePage.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminUsersPage.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AnswerOptionEditWindow.baml
@@ -123,6 +126,8 @@ D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\QuestionEditWindow.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\TheoryCreditEditWindow.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\TicketEditWindow.baml
+D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\TicketFillWindow.baml
+D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\TopicEditWindow.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\UserEditWindow.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Controls\ThemeSwitcher.baml
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\SettingsWindow.baml
@@ -136,6 +141,7 @@ D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminResultsPage.g.cs
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminTicketSelectForQuestionsPage.g.cs
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminTicketsPage.g.cs
+D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminTopicsPage.g.cs
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminUserSchedulePage.g.cs
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AdminUsersPage.g.cs
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\AnswerOptionEditWindow.g.cs
@@ -143,6 +149,8 @@ D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\QuestionEditWindow.g.cs
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\TheoryCreditEditWindow.g.cs
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\TicketEditWindow.g.cs
+D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\TicketFillWindow.g.cs
+D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\TopicEditWindow.g.cs
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Admin\UserEditWindow.g.cs
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\Controls\ThemeSwitcher.g.cs
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Views\InstructorSelectionWindow.g.cs
@@ -187,3 +195,4 @@ D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\AutoSchool.pdb
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\AutoSchool.genruntimeconfig.cache
 D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\ref\AutoSchool.dll
+D:\univer\2_course\4 семестр\ооп\кп\AutoSchool\AutoSchool\obj\Debug\net8.0-windows\Localization\Strings.baml

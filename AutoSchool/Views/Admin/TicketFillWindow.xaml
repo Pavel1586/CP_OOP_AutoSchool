@@ -1,0 +1,243 @@
+﻿<Window x:Class="AutoSchool.Views.Admin.TicketFillWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Заполнение билета"
+        Width="1100" Height="700"
+        MinWidth="980" MinHeight="620"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterOwner">
+
+	<Window.Background>
+		<DynamicResource ResourceKey="AppBackgroundBrush"/>
+	</Window.Background>
+
+	<Grid Margin="14">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<!-- Header -->
+		<Grid Grid.Row="0" Margin="0,0,0,10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+
+			<StackPanel>
+				<TextBlock Text="{Binding HeaderText}" FontSize="20" FontWeight="Bold"/>
+				<TextBlock Text="{Binding CounterText}" Foreground="{DynamicResource SubTextBrush}" Margin="0,4,0,0"/>
+			</StackPanel>
+
+			<Button Grid.Column="1" Content="Закрыть"
+                    MinWidth="120" Height="35"
+                    Command="{Binding CloseCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+		</Grid>
+
+		<!-- Content -->
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="3*"/>
+				<ColumnDefinition Width="12"/>
+				<ColumnDefinition Width="2*"/>
+			</Grid.ColumnDefinitions>
+
+			<!-- Questions list -->
+			<DataGrid Grid.Column="0"
+                      ItemsSource="{Binding Questions}"
+                      SelectedItem="{Binding SelectedQuestion}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      CellStyle="{DynamicResource WrapCellStyle}"
+                      ColumnHeaderStyle="{DynamicResource WrapHeaderStyle}"
+                      RowHeight="NaN"
+                      MinRowHeight="28">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="70"/>
+					<DataGridTextColumn Header="Вопрос" Binding="{Binding Text}" Width="*"
+                                        ElementStyle="{DynamicResource WrapCellTextStyle}"/>
+					<DataGridTextColumn Header="Ответов" Binding="{Binding AnswersCount}" Width="90"/>
+					<DataGridTextColumn Header="Правильный" Binding="{Binding HasCorrectText}" Width="110"/>
+					<DataGridTextColumn Header="Картинка" Binding="{Binding HasImageText}" Width="90"/>
+				</DataGrid.Columns>
+			</DataGrid>
+
+			<GridSplitter Grid.Column="1" Width="12" Background="Transparent"/>
+
+			<!-- Editor -->
+			<Border Grid.Column="2"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="12">
+
+				<!-- ВАЖНО: скролл, чтобы ничего не "пропадало" -->
+				<ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+
+					<StackPanel>
+
+						<TextBlock Text="{Binding EditorTitle}"
+                                   FontSize="16" FontWeight="SemiBold"
+                                   Margin="0,0,0,10"/>
+
+						<!-- Question -->
+						<StackPanel Margin="0,0,0,10">
+							<TextBlock Text="Условие вопроса"
+                                       Foreground="{DynamicResource SubTextBrush}"
+                                       Margin="0,0,0,4"/>
+							<TextBox Text="{Binding EditQuestionText, UpdateSourceTrigger=PropertyChanged}"
+                                     MinHeight="34"/>
+						</StackPanel>
+
+						<!-- Explanation -->
+						<StackPanel Margin="0,0,0,10">
+							<TextBlock Text="Пояснение"
+                                       Foreground="{DynamicResource SubTextBrush}"
+                                       Margin="0,0,0,4"/>
+							<TextBox Text="{Binding EditExplanation, UpdateSourceTrigger=PropertyChanged}"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     MinHeight="70"/>
+						</StackPanel>
+
+						<!-- Image -->
+						<Border Background="{DynamicResource Surface2Brush}"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,0,0,10">
+							<StackPanel>
+								<TextBlock Text="Изображение к вопросу (необязательно)"
+                                           FontWeight="SemiBold"
+                                           Margin="0,0,0,8"/>
+
+								<Grid>
+									<Border Height="170"
+                                            CornerRadius="8"
+                                            ClipToBounds="True"
+                                            Background="{DynamicResource ControlBackgroundBrush}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1">
+										<Image Stretch="Uniform"
+                                               Source="{Binding EditImageBytes, Converter={StaticResource BytesToImage}}"/>
+									</Border>
+
+									<TextBlock Text="(вопрос без изображения)"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource SubTextBrush}"
+                                               FontWeight="SemiBold">
+										<TextBlock.Style>
+											<Style TargetType="TextBlock">
+												<Setter Property="Visibility" Value="Collapsed"/>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding HasImage}" Value="False">
+														<Setter Property="Visibility" Value="Visible"/>
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Grid>
+
+								<WrapPanel HorizontalAlignment="Center" Margin="0,10,0,0">
+									<Button Content="Загрузить"
+                                            MinWidth="120" Height="35" Margin="5"
+                                            Command="{Binding LoadImageCommand}"/>
+									<Button Content="Удалить"
+                                            MinWidth="120" Height="35" Margin="5"
+                                            Command="{Binding ClearImageCommand}"/>
+								</WrapPanel>
+							</StackPanel>
+						</Border>
+
+						<!-- Answers -->
+						<Border Background="{DynamicResource Surface2Brush}"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="10"
+                                Margin="0,0,0,10">
+							<StackPanel>
+								<TextBlock Text="Варианты ответа (отметь правильный)"
+                                           FontWeight="SemiBold"
+                                           Margin="0,0,0,8"/>
+
+								<!-- фиксируем высоту, чтобы в StackPanel не раздувалось бесконечно -->
+								<DataGrid ItemsSource="{Binding EditAnswers}"
+                                          SelectedItem="{Binding SelectedEditAnswer}"
+                                          AutoGenerateColumns="False"
+                                          CanUserAddRows="False"
+                                          IsReadOnly="False"
+                                          Height="220"
+                                          RowHeight="NaN"
+                                          MinRowHeight="28">
+									<DataGrid.Columns>
+										<DataGridTextColumn Header="Текст ответа"
+                                                            Binding="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                            Width="*"/>
+										<DataGridTemplateColumn Header="Правильный" Width="100">
+											<DataGridTemplateColumn.CellTemplate>
+												<DataTemplate>
+													<RadioButton IsChecked="{Binding IsCorrect, Mode=TwoWay}"
+                                                                 Command="{Binding DataContext.SetCorrectAnswerCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                 CommandParameter="{Binding}"
+                                                                 HorizontalAlignment="Center"
+                                                                 VerticalAlignment="Center"/>
+												</DataTemplate>
+											</DataGridTemplateColumn.CellTemplate>
+										</DataGridTemplateColumn>
+									</DataGrid.Columns>
+								</DataGrid>
+
+								<!-- ВОТ ОНИ: кнопки добавления/удаления вариантов -->
+								<WrapPanel HorizontalAlignment="Center" Margin="0,10,0,0">
+									<Button Content="Добавить вариант"
+                                            MinWidth="150" Height="35" Margin="5"
+                                            Command="{Binding AddAnswerCommand}"/>
+									<Button Content="Удалить вариант"
+                                            MinWidth="150" Height="35" Margin="5"
+                                            Command="{Binding RemoveAnswerCommand}"/>
+								</WrapPanel>
+							</StackPanel>
+						</Border>
+
+						<!-- Validation + actions -->
+						<TextBlock Text="{Binding ValidationText}"
+                                   Foreground="{DynamicResource DangerBrush}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,8"/>
+
+						<WrapPanel HorizontalAlignment="Center">
+							<Button Content="Новый вопрос"
+                                    MinWidth="140" Height="35" Margin="5"
+                                    Command="{Binding NewQuestionCommand}"/>
+							<Button Content="Удалить вопрос"
+                                    MinWidth="140" Height="35" Margin="5"
+                                    Command="{Binding DeleteQuestionCommand}"/>
+							<Button Content="Сохранить"
+                                    MinWidth="140" Height="35" Margin="5"
+                                    Style="{DynamicResource Win10PrimaryButton}"
+                                    Command="{Binding SaveQuestionCommand}"/>
+						</WrapPanel>
+
+					</StackPanel>
+				</ScrollViewer>
+			</Border>
+		</Grid>
+
+		<!-- Footer hint -->
+		<TextBlock Grid.Row="2"
+                   Margin="0,10,0,0"
+                   Foreground="{DynamicResource SubTextBrush}"
+                   Text="Ограничение: не более 10 вопросов в билете."/>
+	</Grid>
+</Window>

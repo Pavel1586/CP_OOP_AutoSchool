@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using AutoSchool.Data;
 using AutoSchool.Infrastructure;
 using AutoSchool.Services;
 using AutoSchool.Services.Abstractions;
 using AutoSchool.Views;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoSchool.ViewModels;
 
@@ -39,7 +36,12 @@ public class ResultsHistoryViewModel : BaseViewModel
     public bool IsEmpty
     {
         get => _isEmpty;
-        private set { _isEmpty = value; OnPropertyChanged(); OnPropertyChanged(nameof(EmptyVisibility)); }
+        private set
+        {
+            _isEmpty = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(EmptyVisibility));
+        }
     }
 
     public Visibility EmptyVisibility => IsEmpty ? Visibility.Visible : Visibility.Collapsed;
@@ -50,11 +52,15 @@ public class ResultsHistoryViewModel : BaseViewModel
     private readonly IResultsService _resultsService;
 
     public ResultsHistoryViewModel() : this(new ResultsService()) { }
+
     public ResultsHistoryViewModel(IResultsService resultsService)
     {
         _resultsService = resultsService;
         OpenSelectedCommand = new RelayCommand(OpenSelected);
         BackCommand = new RelayCommand(Back);
+
+        LocalizationManager.LanguageChanged += (_, __) => Load();
+
         Load();
     }
 
@@ -79,7 +85,7 @@ public class ResultsHistoryViewModel : BaseViewModel
                 TicketTitle = r.Title,
                 Correct = r.Correct,
                 Wrong = r.Wrong,
-                Status = r.Wrong <= AllowedMistakes ? "СДАН" : "НЕ СДАН"
+                Status = r.Wrong <= AllowedMistakes ? Loc.T("Str_Passed") : Loc.T("Str_NotPassed")
             });
         }
 
@@ -90,23 +96,20 @@ public class ResultsHistoryViewModel : BaseViewModel
     {
         if (SelectedResult == null)
         {
-            MessageBox.Show("Выберите результат.");
+            MessageBox.Show(Loc.T("Msg_SelectTicket"));
             return;
         }
 
         var w = new TestResultWindow(SelectedResult.Id);
         w.Show();
 
-        if (parameter is Window currentWindow)
-            currentWindow.Close();
+        if (parameter is Window currentWindow) currentWindow.Close();
     }
 
     private void Back(object? parameter)
     {
         var w = new MainMenuWindow();
         w.Show();
-
-        if (parameter is Window currentWindow)
-            currentWindow.Close();
+        if (parameter is Window currentWindow) currentWindow.Close();
     }
 }

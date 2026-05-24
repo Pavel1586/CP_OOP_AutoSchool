@@ -566,6 +566,9 @@ namespace AutoSchool.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -895,9 +898,16 @@ namespace AutoSchool.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TopicId", "Title")
+                        .IsUnique();
 
                     b.ToTable("Tickets");
 
@@ -905,12 +915,14 @@ namespace AutoSchool.Migrations
                         new
                         {
                             Id = 1,
-                            Title = "Билет 1"
+                            Title = "Билет 1",
+                            TopicId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Title = "Билет 2"
+                            Title = "Билет 2",
+                            TopicId = 1
                         });
                 });
 
@@ -924,9 +936,13 @@ namespace AutoSchool.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Topics");
 
@@ -934,37 +950,22 @@ namespace AutoSchool.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Общее"
+                            Name = "Основы управления ТС и БД"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Светофор и регулировщик"
+                            Name = "Первая помощь пострадавшим"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Дорожные знаки"
+                            Name = "Устройство и техобслуживание кат. «В»"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Скорость"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Обгон и опережение"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Остановка и стоянка"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Переезды и спецсигналы"
+                            Name = "Правовые основы дорожного движения"
                         });
                 });
 
@@ -1124,6 +1125,17 @@ namespace AutoSchool.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("AutoSchool.Models.Ticket", b =>
+                {
+                    b.HasOne("AutoSchool.Models.Topic", "Topic")
+                        .WithMany("Tickets")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Topic");
+                });
+
             modelBuilder.Entity("AutoSchool.Models.User", b =>
                 {
                     b.HasOne("AutoSchool.Models.Instructor", "Instructor")
@@ -1165,6 +1177,8 @@ namespace AutoSchool.Migrations
             modelBuilder.Entity("AutoSchool.Models.Topic", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("AutoSchool.Models.User", b =>

@@ -1,0 +1,222 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+	<!-- =========================================================
+       COMMON
+  ========================================================= -->
+	<sys:String x:Key="Close">Закрыть</sys:String>
+	<sys:String x:Key="Back">Назад</sys:String>
+	<sys:String x:Key="Next">Далее</sys:String>
+	<sys:String x:Key="Open">Открыть</sys:String>
+	<sys:String x:Key="Exit">Выйти</sys:String>
+
+	<!-- Алиасы для старых/других ключей -->
+	<sys:String x:Key="Str_Close">Закрыть</sys:String>
+	<sys:String x:Key="Str_Back">Назад</sys:String>
+	<sys:String x:Key="Str_Next">Далее</sys:String>
+	<sys:String x:Key="Str_Open">Открыть</sys:String>
+	<sys:String x:Key="Str_Exit">Выйти</sys:String>
+
+	<!-- =========================================================
+       SETTINGS
+  ========================================================= -->
+	<sys:String x:Key="SettingsTitle">Настройки</sys:String>
+	<sys:String x:Key="ThemeHeader">Тема оформления</sys:String>
+	<sys:String x:Key="Light">Светлая</sys:String>
+	<sys:String x:Key="Dark">Тёмная</sys:String>
+	<sys:String x:Key="LanguageHeader">Язык интерфейса</sys:String>
+	<sys:String x:Key="Russian">Русский</sys:String>
+	<sys:String x:Key="English">English</sys:String>
+
+	<!-- =========================================================
+       LOGIN
+  ========================================================= -->
+	<sys:String x:Key="LoginWindowTitle">Вход</sys:String>
+	<sys:String x:Key="LoginTitle">Вход в систему</sys:String>
+	<sys:String x:Key="Email">Email</sys:String>
+	<sys:String x:Key="Password">Пароль</sys:String>
+	<sys:String x:Key="Login">Войти</sys:String>
+	<sys:String x:Key="Register">Регистрация</sys:String>
+
+	<!-- =========================================================
+       REGISTER
+  ========================================================= -->
+	<sys:String x:Key="RegisterWindowTitle">Регистрация</sys:String>
+	<sys:String x:Key="FirstName">Имя</sys:String>
+	<sys:String x:Key="LastName">Фамилия</sys:String>
+	<sys:String x:Key="ConfirmPassword">Подтвердите пароль</sys:String>
+	<sys:String x:Key="RegisterSubmit">Зарегистрироваться</sys:String>
+
+	<!-- =========================================================
+       MAIN MENU
+  ========================================================= -->
+	<sys:String x:Key="MainMenuWindowTitle">Главное меню</sys:String>
+	<sys:String x:Key="StartTest">Пройти тест</sys:String>
+	<sys:String x:Key="ResultsHistory">История результатов</sys:String>
+	<sys:String x:Key="ChooseInstructor">Выбрать инструктора</sys:String>
+	<sys:String x:Key="TheorySchedule">Расписание зачётов</sys:String>
+	<sys:String x:Key="Settings">Настройки</sys:String>
+	<sys:String x:Key="Logout">Выход</sys:String>
+	<sys:String x:Key="WelcomeGeneric">Здравствуйте!</sys:String>
+	<sys:String x:Key="WelcomeFormat">Здравствуйте, {0}!</sys:String>
+	<sys:String x:Key="InstructorNotSelected">Инструктор не выбран</sys:String>
+	<sys:String x:Key="YourInstructorFormat">Ваш инструктор: {0} {1}</sys:String>
+
+	<!-- =========================================================
+       VALIDATION / AUTH MESSAGES
+       (добавлены алиасы с подчёркиваниями)
+  ========================================================= -->
+	<sys:String x:Key="MsgWrongCredentials">Неверный email или пароль.</sys:String>
+	<sys:String x:Key="Msg_WrongCredentials">Неверный email или пароль.</sys:String>
+
+	<sys:String x:Key="ErrEnterEmail">Введите email.</sys:String>
+	<sys:String x:Key="Err_EnterEmail">Введите email.</sys:String>
+
+	<sys:String x:Key="ErrInvalidEmail">Некорректный формат email.</sys:String>
+	<sys:String x:Key="Err_InvalidEmail">Некорректный формат email.</sys:String>
+
+	<sys:String x:Key="ErrEnterPassword">Введите пароль.</sys:String>
+	<sys:String x:Key="Err_EnterPassword">Введите пароль.</sys:String>
+
+	<sys:String x:Key="ErrEnterFirstName">Введите имя.</sys:String>
+	<sys:String x:Key="Err_EnterFirstName">Введите имя.</sys:String>
+
+	<sys:String x:Key="ErrEnterLastName">Введите фамилию.</sys:String>
+	<sys:String x:Key="Err_EnterLastName">Введите фамилию.</sys:String>
+
+	<sys:String x:Key="ErrConfirmPassword">Подтвердите пароль.</sys:String>
+	<sys:String x:Key="Err_ConfirmPassword">Подтвердите пароль.</sys:String>
+
+	<sys:String x:Key="ErrPasswordsNotMatch">Пароли не совпадают.</sys:String>
+	<sys:String x:Key="Err_PasswordsNotMatch">Пароли не совпадают.</sys:String>
+
+	<sys:String x:Key="ErrUserExists">Пользователь с таким email уже существует.</sys:String>
+	<sys:String x:Key="Err_UserExists">Пользователь с таким email уже существует.</sys:String>
+
+	<!-- Правила пароля (используются RegisterViewModel) -->
+	<sys:String x:Key="Err_PwdLen">Пароль должен быть длиной 8–20 символов.</sys:String>
+	<sys:String x:Key="Err_PwdAscii">Пароль должен содержать только латинские символы ASCII (без кириллицы).</sys:String>
+	<sys:String x:Key="Err_PwdUpper">Пароль должен содержать минимум одну заглавную букву.</sys:String>
+	<sys:String x:Key="Err_PwdLower">Пароль должен содержать минимум одну строчную букву.</sys:String>
+	<sys:String x:Key="Err_PwdDigit">Пароль должен содержать минимум одну цифру.</sys:String>
+	<sys:String x:Key="Err_PwdSpec">Пароль должен содержать минимум один спецсимвол.</sys:String>
+
+	<!-- =========================================================
+       USER: INSTRUCTOR SELECTION (окно выбора инструктора)
+  ========================================================= -->
+	<sys:String x:Key="InstructorSelectionWindowTitle">Выбор инструктора</sys:String>
+	<sys:String x:Key="SelectInstructorHeader">Выберите инструктора</sys:String>
+	<sys:String x:Key="Photo">Фото</sys:String>
+	<sys:String x:Key="FullName">ФИО</sys:String>
+	<sys:String x:Key="Category">Категория</sys:String>
+	<sys:String x:Key="Transmission">КПП</sys:String>
+	<sys:String x:Key="Vehicle">Авто</sys:String>
+	<sys:String x:Key="Phone">Телефон</sys:String>
+	<sys:String x:Key="Info">Информация</sys:String>
+	<sys:String x:Key="SelectionSavedHint">Выбор сохраняется автоматически.</sys:String>
+	<sys:String x:Key="Select">Выбрать</sys:String>
+	<sys:String x:Key="ClearSelection">Снять выбор</sys:String>
+
+	<!-- =========================================================
+       USER: TOPIC SELECTION
+  ========================================================= -->
+	<sys:String x:Key="TopicSelectionWindowTitle">Выбор темы</sys:String>
+	<sys:String x:Key="SelectTopicHeader">Выберите тему</sys:String>
+	<sys:String x:Key="Topic">Тема</sys:String>
+	<sys:String x:Key="Questions">Вопросов</sys:String>
+	<sys:String x:Key="Tickets">Билетов</sys:String>
+
+	<sys:String x:Key="Msg_SelectTopic">Выберите тему.</sys:String>
+	<sys:String x:Key="Msg_NoTicketsInTopic">В выбранной теме нет билетов.</sys:String>
+
+	<!-- =========================================================
+       USER: TICKETS BY TOPIC
+  ========================================================= -->
+	<sys:String x:Key="TicketsByTopicWindowTitle">Билеты по теме</sys:String>
+	<sys:String x:Key="Str_TicketsByTopicHeaderFormat">Билеты по теме: {0}</sys:String>
+	<sys:String x:Key="Id">Id</sys:String>
+	<sys:String x:Key="Ticket">Билет</sys:String>
+	<sys:String x:Key="TopicQuestionsCount">Вопросов по теме</sys:String>
+	<sys:String x:Key="TotalQuestionsCount">Всего вопросов</sys:String>
+	<sys:String x:Key="StartTestBtn">Начать тест</sys:String>
+
+	<sys:String x:Key="Msg_SelectTicket">Выберите билет.</sys:String>
+
+	<!-- =========================================================
+       USER: RESULTS HISTORY
+  ========================================================= -->
+	<sys:String x:Key="ResultsHistoryWindowTitle">История результатов</sys:String>
+	<sys:String x:Key="ResultsHistoryHeader">История результатов</sys:String>
+	<sys:String x:Key="Date">Дата</sys:String>
+	<sys:String x:Key="CorrectCount">Верно</sys:String>
+	<sys:String x:Key="WrongCount">Ошибок</sys:String>
+	<sys:String x:Key="Status">Статус</sys:String>
+	<sys:String x:Key="EmptyHistory">История пуста.</sys:String>
+
+	<!-- статусы в ResultsHistoryViewModel -->
+	<sys:String x:Key="Str_Passed">СДАН</sys:String>
+	<sys:String x:Key="Str_NotPassed">НЕ СДАН</sys:String>
+
+	<!-- =========================================================
+       USER: THEORY SCHEDULE
+  ========================================================= -->
+	<sys:String x:Key="TheoryScheduleWindowTitle">Расписание зачётов</sys:String>
+	<sys:String x:Key="TheoryScheduleHeader">Расписание зачётов</sys:String>
+	<sys:String x:Key="DateTime">Дата/время</sys:String>
+	<sys:String x:Key="Duration">Длительность</sys:String>
+	<sys:String x:Key="Room">Кабинет</sys:String>
+	<sys:String x:Key="Notes">Примечание</sys:String>
+
+	<sys:String x:Key="Str_TrainingPlanFormat">План обучения: {0:d} — {1:d} (всего {2} дней, прошло {3}, осталось {4}).</sys:String>
+	<sys:String x:Key="Str_TrainingPlanNotSet">План обучения не задан.</sys:String>
+
+	<!-- =========================================================
+       TEST PASSING (окно прохождения теста + VM)
+  ========================================================= -->
+	<sys:String x:Key="Str_TestWindowTitle">Тест</sys:String>
+	<sys:String x:Key="Str_NoImage">Нет изображения</sys:String>
+
+	<sys:String x:Key="Str_Confirm">ПОДТВЕРДИТЬ</sys:String>
+	<sys:String x:Key="Str_Result">РЕЗУЛЬТАТ</sys:String>
+	<sys:String x:Key="Str_NextQuestion">СЛЕДУЮЩИЙ ВОПРОС</sys:String>
+
+	<sys:String x:Key="Str_QuestionXOfY">Вопрос {0} из {1}</sys:String>
+
+	<sys:String x:Key="Str_CorrectUpper">ВЕРНО</sys:String>
+	<sys:String x:Key="Str_WrongUpper">НЕВЕРНО</sys:String>
+
+	<sys:String x:Key="Msg_NotEnoughQuestionsFormat">Недостаточно вопросов в билете: требуется {0}, доступно {1}.</sys:String>
+	<sys:String x:Key="Msg_SelectOption">Выберите вариант ответа.</sys:String>
+
+	<sys:String x:Key="Msg_ExitTestTitle">Выход из теста</sys:String>
+	<sys:String x:Key="Msg_ExitTestText">Выйти из теста? Прогресс будет потерян.</sys:String>
+
+	<sys:String x:Key="Msg_ShowResultFailed">Не удалось отобразить результат.</sys:String>
+
+	<!-- =========================================================
+       TEST RESULT
+  ========================================================= -->
+	<sys:String x:Key="Str_TestResultWindowTitle">Результат теста</sys:String>
+	<sys:String x:Key="Str_TestPassedUpper">СДАН</sys:String>
+	<sys:String x:Key="Str_TestFailedUpper">НЕ СДАН</sys:String>
+	<sys:String x:Key="Str_AnsweredFormat">Отвечено: {0} из {1}</sys:String>
+	<sys:String x:Key="Str_SummaryFormat">Верно: {0} • Ошибок: {1}</sys:String>
+	<sys:String x:Key="Str_Review">Разбор</sys:String>
+	<sys:String x:Key="Str_ToMenu">В меню</sys:String>
+
+	<!-- =========================================================
+       TEST REVIEW
+  ========================================================= -->
+	<sys:String x:Key="Review">Разбор</sys:String>
+	<sys:String x:Key="Question">Вопрос</sys:String>
+	<sys:String x:Key="YourAnswer">Ваш ответ</sys:String>
+	<sys:String x:Key="CorrectAnswer">Правильный ответ</sys:String>
+	<sys:String x:Key="Explanation">Пояснение</sys:String>
+
+	<sys:String x:Key="Str_ReviewTitleFormat">Разбор — {0}</sys:String>
+	<sys:String x:Key="Str_NoCorrectAnswer">Нет правильного ответа</sys:String>
+	<sys:String x:Key="Str_NoAnswer">Нет ответа</sys:String>
+
+</ResourceDictionary>

@@ -1,13 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
-using AutoSchool.Data;
-using AutoSchool.Infrastructure;
+﻿using AutoSchool.Infrastructure;
 using AutoSchool.Services;
 using AutoSchool.Services.Abstractions;
 using AutoSchool.Views;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace AutoSchool.ViewModels;
 
@@ -22,8 +19,9 @@ public class TicketSelectionByTopicViewModel : BaseViewModel
     }
 
     private readonly int _topicId;
+    private readonly string _topicName;
 
-    public string HeaderText { get; }
+    public string HeaderText => Loc.F("Str_TicketsByTopicHeaderFormat", _topicName);
 
     public ObservableCollection<TicketRow> Tickets { get; } = new();
 
@@ -45,10 +43,15 @@ public class TicketSelectionByTopicViewModel : BaseViewModel
     public TicketSelectionByTopicViewModel(int topicId, string topicName, ITicketService ticketService)
     {
         _topicId = topicId;
+        _topicName = topicName;
         _ticketService = ticketService;
-        HeaderText = $"Тема: {topicName} — выберите билет";
+
         OpenTicketCommand = new RelayCommand(OpenTicket);
         BackCommand = new RelayCommand(Back);
+
+        LocalizationManager.LanguageChanged += (_, __) =>
+            OnPropertyChanged(nameof(HeaderText));
+
         Load();
     }
 
@@ -71,14 +74,12 @@ public class TicketSelectionByTopicViewModel : BaseViewModel
     {
         if (SelectedTicket == null)
         {
-            MessageBox.Show("Выберите билет.");
+            MessageBox.Show(Loc.T("Msg_SelectTicket"));
             return;
         }
 
-        // Тест запускаем по билету как обычно
         var w = new TestPassingWindow(SelectedTicket.Id);
         w.Show();
-
         if (parameter is Window currentWindow) currentWindow.Close();
     }
 

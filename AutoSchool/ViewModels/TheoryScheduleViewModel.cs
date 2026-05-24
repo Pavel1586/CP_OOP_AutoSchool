@@ -1,13 +1,13 @@
-﻿using AutoSchool.Data;
-using AutoSchool.Infrastructure;
-using AutoSchool.Services;
-using AutoSchool.Views;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using AutoSchool.Data;
+using AutoSchool.Infrastructure;
+using AutoSchool.Services;
+using AutoSchool.Views;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoSchool.ViewModels;
 
@@ -24,7 +24,6 @@ public class TheoryScheduleViewModel : BaseViewModel
     }
 
     public ObservableCollection<CreditRow> Credits { get; } = new();
-
     public string TrainingInfoText { get; private set; } = "";
 
     public ICommand BackCommand { get; }
@@ -32,6 +31,8 @@ public class TheoryScheduleViewModel : BaseViewModel
     public TheoryScheduleViewModel()
     {
         BackCommand = new RelayCommand(Back);
+
+        LocalizationManager.LanguageChanged += (_, __) => Load();
         Load();
     }
 
@@ -40,10 +41,8 @@ public class TheoryScheduleViewModel : BaseViewModel
         if (UserSession.CurrentUser == null) return;
 
         using var context = new ApplicationDbContext();
-
         var user = context.Users.First(u => u.Id == UserSession.CurrentUser.Id);
 
-        // длительность обучения
         if (user.TrainingStartDate.HasValue && user.TrainingPlannedEndDate.HasValue)
         {
             var start = user.TrainingStartDate.Value.Date;
@@ -56,13 +55,13 @@ public class TheoryScheduleViewModel : BaseViewModel
             if (passedDays < 0) passedDays = 0;
             if (leftDays < 0) leftDays = 0;
 
-            TrainingInfoText = $"План обучения: {start:dd.MM.yyyy} — {end:dd.MM.yyyy} " +
-                               $"(длительность {totalDays} дней). Пройдено: {passedDays} дней, осталось: {leftDays} дней.";
+            TrainingInfoText = Loc.F("Str_TrainingPlanFormat", start, end, totalDays, passedDays, leftDays);
         }
         else
         {
-            TrainingInfoText = "План обучения не задан.";
+            TrainingInfoText = Loc.T("Str_TrainingPlanNotSet");
         }
+
         OnPropertyChanged(nameof(TrainingInfoText));
 
         var list = context.TheoryCredits

@@ -25,14 +25,40 @@ namespace AutoSchool.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // ====== UNIQUE CONSTRAINTS (NEW) ======
+            // Важно: индексы нельзя создать на nvarchar(max), поэтому задаём MaxLength.
+            modelBuilder.Entity<Topic>()
+                .Property(t => t.Name)
+                .HasMaxLength(200);
+
+            modelBuilder.Entity<Topic>()
+                .HasIndex(t => t.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Ticket>()
+                .Property(t => t.Title)
+                .HasMaxLength(200);
+
+            // Уникальный билет В ПРЕДЕЛАХ темы
+            modelBuilder.Entity<Ticket>()
+                .HasIndex(t => new { t.TopicId, t.Title })
+                .IsUnique();
+            // =====================================
+
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = 1, Name = "Admin" },
                 new Role { Id = 2, Name = "Client" }
             );
 
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.Topic)
+                .WithMany(tp => tp.Tickets)
+                .HasForeignKey(t => t.TopicId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Ticket>().HasData(
-                new Ticket { Id = 1, Title = "Билет 1" },
-                new Ticket { Id = 2, Title = "Билет 2" }
+                new Ticket { Id = 1, Title = "Билет 1", TopicId = 1 },
+                new Ticket { Id = 2, Title = "Билет 2", TopicId = 1 }
             );
 
             modelBuilder.Entity<User>()
@@ -42,13 +68,10 @@ namespace AutoSchool.Data
                 .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Topic>().HasData(
-                new Topic { Id = 1, Name = "Общее" },
-                new Topic { Id = 2, Name = "Светофор и регулировщик" },
-                new Topic { Id = 3, Name = "Дорожные знаки" },
-                new Topic { Id = 4, Name = "Скорость" },
-                new Topic { Id = 5, Name = "Обгон и опережение" },
-                new Topic { Id = 6, Name = "Остановка и стоянка" },
-                new Topic { Id = 7, Name = "Переезды и спецсигналы" }
+                new Topic { Id = 1, Name = "Основы управления ТС и БД" },
+                new Topic { Id = 2, Name = "Первая помощь пострадавшим" },
+                new Topic { Id = 3, Name = "Устройство и техобслуживание кат. «В»" },
+                new Topic { Id = 4, Name = "Правовые основы дорожного движения" }
             );
 
             modelBuilder.Entity<Question>()
@@ -59,7 +82,6 @@ namespace AutoSchool.Data
                 // Ticket 1
                 new Question { Id = 1, TicketId = 1, TopicId = 2, Text = "Что означает красный сигнал светофора?", Explanation = "Красный сигнал запрещает движение." },
                 new Question { Id = 2, TicketId = 1, TopicId = 5, Text = "Можно ли выполнять обгон на пешеходном переходе?", Explanation = "Обгон на пешеходном переходе запрещен." },
-
                 new Question { Id = 4, TicketId = 1, TopicId = 2, Text = "Какой сигнал светофора разрешает движение?", Explanation = "Движение разрешает зелёный сигнал светофора." },
                 new Question { Id = 5, TicketId = 1, TopicId = 2, Text = "Разрешено ли движение на жёлтый сигнал светофора?", Explanation = "Жёлтый сигнал запрещает движение, кроме случаев, когда остановка может быть опасной или невозможной." },
                 new Question { Id = 6, TicketId = 1, TopicId = 3, Text = "Что означает знак «Уступите дорогу»?", Explanation = "Водитель обязан уступить дорогу транспортным средствам, движущимся по пересекаемой дороге." },
@@ -71,7 +93,6 @@ namespace AutoSchool.Data
 
                 // Ticket 2
                 new Question { Id = 3, TicketId = 2, TopicId = 3, Text = "Что означает знак 'Главная дорога'?", Explanation = "Он указывает, что водитель находится на главной дороге." },
-
                 new Question { Id = 12, TicketId = 2, TopicId = 3, Text = "Что означает знак «Въезд запрещён»?", Explanation = "Знак запрещает въезд транспортных средств в данном направлении." },
                 new Question { Id = 13, TicketId = 2, TopicId = 1, Text = "Кто имеет преимущество на перекрёстке равнозначных дорог?", Explanation = "Преимущество имеет транспортное средство, приближающееся справа (правило «помехи справа»)." },
                 new Question { Id = 14, TicketId = 2, TopicId = 1, Text = "Разрешено ли пользоваться телефоном без гарнитуры во время движения?", Explanation = "Пользоваться телефоном без устройства hands-free запрещено." },
@@ -84,7 +105,6 @@ namespace AutoSchool.Data
             );
 
             modelBuilder.Entity<AnswerOption>().HasData(
-                // ===== Старые варианты (как было) =====
                 new AnswerOption { Id = 1, QuestionId = 1, Text = "Движение запрещено", IsCorrect = true },
                 new AnswerOption { Id = 2, QuestionId = 1, Text = "Можно ехать осторожно", IsCorrect = false },
                 new AnswerOption { Id = 3, QuestionId = 1, Text = "Можно ехать только направо", IsCorrect = false },
@@ -97,88 +117,70 @@ namespace AutoSchool.Data
                 new AnswerOption { Id = 8, QuestionId = 3, Text = "Приоритет на перекрестках", IsCorrect = true },
                 new AnswerOption { Id = 9, QuestionId = 3, Text = "Запрет остановки", IsCorrect = false },
 
-                // ===== Новые варианты =====
-                // Q4
                 new AnswerOption { Id = 10, QuestionId = 4, Text = "Зелёный", IsCorrect = true },
                 new AnswerOption { Id = 11, QuestionId = 4, Text = "Красный", IsCorrect = false },
                 new AnswerOption { Id = 12, QuestionId = 4, Text = "Жёлтый", IsCorrect = false },
 
-                // Q5
                 new AnswerOption { Id = 13, QuestionId = 5, Text = "Запрещено, кроме случаев когда остановка невозможна", IsCorrect = true },
                 new AnswerOption { Id = 14, QuestionId = 5, Text = "Разрешено всегда", IsCorrect = false },
                 new AnswerOption { Id = 15, QuestionId = 5, Text = "Разрешено только направо", IsCorrect = false },
 
-                // Q6
                 new AnswerOption { Id = 16, QuestionId = 6, Text = "Нужно уступить транспортным средствам на пересекаемой дороге", IsCorrect = true },
                 new AnswerOption { Id = 17, QuestionId = 6, Text = "Движение запрещено", IsCorrect = false },
                 new AnswerOption { Id = 18, QuestionId = 6, Text = "Вы на главной дороге", IsCorrect = false },
 
-                // Q7
                 new AnswerOption { Id = 19, QuestionId = 7, Text = "60 км/ч", IsCorrect = true },
                 new AnswerOption { Id = 20, QuestionId = 7, Text = "90 км/ч", IsCorrect = false },
                 new AnswerOption { Id = 21, QuestionId = 7, Text = "40 км/ч", IsCorrect = false },
 
-                // Q8
                 new AnswerOption { Id = 22, QuestionId = 8, Text = "Да, если предусмотрены конструкцией", IsCorrect = true },
                 new AnswerOption { Id = 23, QuestionId = 8, Text = "Только водитель", IsCorrect = false },
                 new AnswerOption { Id = 24, QuestionId = 8, Text = "Только на трассе", IsCorrect = false },
 
-                // Q9
                 new AnswerOption { Id = 25, QuestionId = 9, Text = "Нет, запрещена", IsCorrect = true },
                 new AnswerOption { Id = 26, QuestionId = 9, Text = "Да, если нет пешеходов", IsCorrect = false },
                 new AnswerOption { Id = 27, QuestionId = 9, Text = "Да, не более 1 минуты", IsCorrect = false },
 
-                // Q10
                 new AnswerOption { Id = 28, QuestionId = 10, Text = "Да, запрещена", IsCorrect = true },
                 new AnswerOption { Id = 29, QuestionId = 10, Text = "Нет, разрешена", IsCorrect = false },
                 new AnswerOption { Id = 30, QuestionId = 10, Text = "Запрещена только после перехода", IsCorrect = false },
 
-                // Q11
                 new AnswerOption { Id = 31, QuestionId = 11, Text = "Перед стоп-линией", IsCorrect = true },
                 new AnswerOption { Id = 32, QuestionId = 11, Text = "На стоп-линии", IsCorrect = false },
                 new AnswerOption { Id = 33, QuestionId = 11, Text = "После стоп-линии", IsCorrect = false },
 
-                // Q12
                 new AnswerOption { Id = 34, QuestionId = 12, Text = "Въезд запрещён в данном направлении", IsCorrect = true },
                 new AnswerOption { Id = 35, QuestionId = 12, Text = "Движение запрещено для всех", IsCorrect = false },
                 new AnswerOption { Id = 36, QuestionId = 12, Text = "Остановка запрещена", IsCorrect = false },
 
-                // Q13
                 new AnswerOption { Id = 37, QuestionId = 13, Text = "Транспортное средство справа", IsCorrect = true },
                 new AnswerOption { Id = 38, QuestionId = 13, Text = "Транспортное средство слева", IsCorrect = false },
                 new AnswerOption { Id = 39, QuestionId = 13, Text = "Тот, кто едет быстрее", IsCorrect = false },
 
-                // Q14
                 new AnswerOption { Id = 40, QuestionId = 14, Text = "Запрещено", IsCorrect = true },
                 new AnswerOption { Id = 41, QuestionId = 14, Text = "Разрешено", IsCorrect = false },
                 new AnswerOption { Id = 42, QuestionId = 14, Text = "Разрешено только в пробке", IsCorrect = false },
 
-                // Q15
                 new AnswerOption { Id = 43, QuestionId = 15, Text = "Водительское удостоверение соответствующей категории", IsCorrect = true },
                 new AnswerOption { Id = 44, QuestionId = 15, Text = "Паспорт", IsCorrect = false },
                 new AnswerOption { Id = 45, QuestionId = 15, Text = "Свидетельство о рождении", IsCorrect = false },
 
-                // Q16
                 new AnswerOption { Id = 46, QuestionId = 16, Text = "ДХО или ближний свет фар", IsCorrect = true },
                 new AnswerOption { Id = 47, QuestionId = 16, Text = "Только дальний свет", IsCorrect = false },
                 new AnswerOption { Id = 48, QuestionId = 16, Text = "Только противотуманные фары", IsCorrect = false },
 
-                // Q17
                 new AnswerOption { Id = 49, QuestionId = 17, Text = "Нет, запрещён", IsCorrect = true },
                 new AnswerOption { Id = 50, QuestionId = 17, Text = "Да, если нет поезда", IsCorrect = false },
                 new AnswerOption { Id = 51, QuestionId = 17, Text = "Да, если включены аварийные огни", IsCorrect = false },
 
-                // Q18
                 new AnswerOption { Id = 52, QuestionId = 18, Text = "Уступить дорогу и обеспечить проезд", IsCorrect = true },
                 new AnswerOption { Id = 53, QuestionId = 18, Text = "Продолжать движение без изменений", IsCorrect = false },
                 new AnswerOption { Id = 54, QuestionId = 18, Text = "Остановиться посреди полосы", IsCorrect = false },
 
-                // Q19
                 new AnswerOption { Id = 55, QuestionId = 19, Text = "Нет, нельзя", IsCorrect = true },
                 new AnswerOption { Id = 56, QuestionId = 19, Text = "Да, если нет встречных", IsCorrect = false },
                 new AnswerOption { Id = 57, QuestionId = 19, Text = "Да, если спешите", IsCorrect = false },
 
-                // Q20
                 new AnswerOption { Id = 58, QuestionId = 20, Text = "Нет, запрещён", IsCorrect = true },
                 new AnswerOption { Id = 59, QuestionId = 20, Text = "Да, разрешён всегда", IsCorrect = false },
                 new AnswerOption { Id = 60, QuestionId = 20, Text = "Разрешён только днём", IsCorrect = false }
@@ -239,7 +241,6 @@ namespace AutoSchool.Data
                 .WithMany()
                 .HasForeignKey(a => a.SelectedOptionId)
                 .OnDelete(DeleteBehavior.Restrict);
-
 
             modelBuilder.Entity<TheoryCredit>()
                 .HasOne(c => c.User)

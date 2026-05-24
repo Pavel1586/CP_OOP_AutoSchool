@@ -17,6 +17,7 @@ public class AdminTicketsViewModel : BaseViewModel
         public int Id { get; set; }
         public string Title { get; set; } = "";
         public int QuestionsCount { get; set; }
+        public string TopicName { get; set; } = "";
     }
 
     private readonly IPageNavigationService _nav;
@@ -30,10 +31,13 @@ public class AdminTicketsViewModel : BaseViewModel
         set { _selectedTicket = value; OnPropertyChanged(); }
     }
 
+    public string StatusText => $"Билетов: {Tickets.Count}";
+
     public ICommand AddCommand { get; }
     public ICommand EditCommand { get; }
     public ICommand DeleteCommand { get; }
     public ICommand OpenQuestionsCommand { get; }
+    public ICommand FillTicketCommand { get; }
 
     public AdminTicketsViewModel(IPageNavigationService nav)
     {
@@ -43,6 +47,7 @@ public class AdminTicketsViewModel : BaseViewModel
         EditCommand = new RelayCommand(_ => Edit());
         DeleteCommand = new RelayCommand(_ => Delete());
         OpenQuestionsCommand = new RelayCommand(_ => OpenQuestions());
+        FillTicketCommand = new RelayCommand(w => FillTicket(w as Window));
 
         Load();
     }
@@ -52,20 +57,26 @@ public class AdminTicketsViewModel : BaseViewModel
         using var context = new ApplicationDbContext();
 
         var list = context.Tickets
+            .AsNoTracking()
+            .Include(t => t.Topic)
             .Include(t => t.Questions)
             .OrderBy(t => t.Id)
             .ToList();
 
         Tickets.Clear();
+
         foreach (var t in list)
         {
             Tickets.Add(new TicketRow
             {
                 Id = t.Id,
                 Title = t.Title,
-                QuestionsCount = t.Questions.Count
+                QuestionsCount = t.Questions.Count,
+                TopicName = t.Topic?.Name ?? "—"
             });
         }
+
+        OnPropertyChanged(nameof(StatusText));
     }
 
     private void Add()
@@ -74,9 +85,13 @@ public class AdminTicketsViewModel : BaseViewModel
         if (dlg.ShowDialog() != true) return;
 
         using var context = new ApplicationDbContext();
-        context.Tickets.Add(new Models.Ticket { Title = dlg.TicketTitle });
-        context.SaveChanges();
+        context.Tickets.Add(new Models.Ticket
+        {
+            Title = dlg.TicketTitle,
+            TopicId = dlg.TopicId
+        });
 
+        context.SaveChanges();
         Load();
     }
 
@@ -88,14 +103,16 @@ public class AdminTicketsViewModel : BaseViewModel
             return;
         }
 
-        var dlg = new TicketEditWindow(SelectedTicket.Title);
-        if (dlg.ShowDialog() != true) return;
-
         using var context = new ApplicationDbContext();
         var ticket = context.Tickets.First(t => t.Id == SelectedTicket.Id);
-        ticket.Title = dlg.TicketTitle;
-        context.SaveChanges();
 
+        var dlg = new TicketEditWindow(ticket.Title, ticket.TopicId);
+        if (dlg.ShowDialog() != true) return;
+
+        ticket.Title = dlg.TicketTitle;
+        ticket.TopicId = dlg.TopicId;
+
+        context.SaveChanges();
         Load();
     }
 
@@ -107,16 +124,41 @@ public class AdminTicketsViewModel : BaseViewModel
             return;
         }
 
-        if (MessageBox.Show("Удалить билет? Будут удалены связанные вопросы/ответы.",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning) != MessageBoxResult.Yes)
-            return;
+        int ticketId = SelectedTicket.Id;
 
         using var context = new ApplicationDbContext();
-        var ticket = context.Tickets.First(t => t.Id == SelectedTicket.Id);
+
+        int resultsCount = context.TestResults.Count(r => r.TicketId == ticketId);
+
+        string msg = resultsCount > 0
+            ? $"Удалить билет?\n\nВНИМАНИЕ: по этому билету есть результатов тестов: {resultsCount}.\n" +
+              $"Они будут удалены вместе с ответами (TestAnswers)."
+            : "Удалить билет? Будут удалены связанные вопросы/ответы.";
+
+        if (MessageBox.Show(msg, "Подтверждение",
+                MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes)
+            return;
+
+        var results = context.TestResults.Where(r => r.TicketId == ticketId).ToList();
+        if (results.Count > 0)
+            context.TestResults.RemoveRange(results);
+
+        var ticket = context.Tickets.First(t => t.Id == ticketId);
         context.Tickets.Remove(ticket);
-        context.SaveChanges();
+
+        try
+        {
+            context.SaveChanges();
+        }
+        catch (DbUpdateException ex)
+        {
+            MessageBox.Show(
+                "Не удалось удалить билет.\n\n" + (ex.InnerException?.Message ?? ex.Message),
+                "Ошибка",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+            return;
+        }
 
         Load();
     }
@@ -129,7 +171,23 @@ public class AdminTicketsViewModel : BaseViewModel
             return;
         }
 
-        // следующий шаг: AdminQuestionsPage(ticketId)
         _nav.Navigate(new AdminQuestionsPage(_nav, SelectedTicket.Id));
+    }
+
+    private void FillTicket(Window? owner)
+    {
+        if (SelectedTicket == null)
+        {
+            MessageBox.Show("Выберите билет.");
+            return;
+        }
+
+        var win = new TicketFillWindow(SelectedTicket.Id);
+        if (owner != null) win.Owner = owner;
+
+        win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        win.ShowDialog();
+
+        Load();
     }
 }

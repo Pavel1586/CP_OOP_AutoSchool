@@ -68,6 +68,15 @@ namespace AutoSchool.ViewModels
         {
             LoginCommand = new RelayCommand(Login);
             OpenRegisterCommand = new RelayCommand(OpenRegister);
+
+            LocalizationManager.LanguageChanged += (_, __) =>
+            {
+                // пересчитать тексты ошибок при смене языка
+                ValidateEmail();
+                ValidatePassword();
+                if (!string.IsNullOrWhiteSpace(AuthError))
+                    AuthError = Loc.T("Msg_WrongCredentials");
+            };
         }
 
         private void ValidateEmail()
@@ -78,12 +87,9 @@ namespace AutoSchool.ViewModels
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(Email))
-                EmailError = "Введите email.";
-            else if (!Regex.IsMatch(Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-                EmailError = "Некорректный формат email.";
-            else
-                EmailError = "";
+            if (string.IsNullOrWhiteSpace(Email)) EmailError = Loc.T("Err_EnterEmail");
+            else if (!Regex.IsMatch(Email.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$")) EmailError = Loc.T("Err_InvalidEmail");
+            else EmailError = "";
         }
 
         private void ValidatePassword()
@@ -94,9 +100,7 @@ namespace AutoSchool.ViewModels
                 return;
             }
 
-            PasswordError = string.IsNullOrWhiteSpace(Password)
-                ? "Введите пароль."
-                : "";
+            PasswordError = string.IsNullOrWhiteSpace(Password) ? Loc.T("Err_EnterPassword") : "";
         }
 
         private bool ValidateAll()
@@ -104,36 +108,32 @@ namespace AutoSchool.ViewModels
             _showErrors = true;
             ValidateEmail();
             ValidatePassword();
-
             return string.IsNullOrEmpty(EmailError) && string.IsNullOrEmpty(PasswordError);
         }
 
         private void Login(object? parameter)
         {
-            if (!ValidateAll())
-                return;
+            if (!ValidateAll()) return;
 
             try
             {
                 var user = _authService.Login(Email.Trim(), Password);
-
                 if (user == null)
                 {
-                    AuthError = "Неверный email или пароль.";
+                    AuthError = Loc.T("Msg_WrongCredentials");
                     return;
                 }
 
                 UserSession.CurrentUser = user;
 
-                Window nextWindow = user.RoleId == 1 ? new AdminWindow() : new MainMenuWindow();
+                Window nextWindow = user.RoleId == 1 ? new AutoSchool.Views.AdminWindow() : new MainMenuWindow();
                 nextWindow.Show();
 
-                if (parameter is Window currentWindow)
-                    currentWindow.Close();
+                if (parameter is Window currentWindow) currentWindow.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Ошибка входа", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.ToString(), "Login error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -141,8 +141,7 @@ namespace AutoSchool.ViewModels
         {
             var w = new RegisterWindow();
             w.Show();
-            if (parameter is Window currentWindow)
-                currentWindow.Close();
+            if (parameter is Window currentWindow) currentWindow.Close();
         }
     }
 }

@@ -1,13 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using AutoSchool.Data;
 using AutoSchool.Infrastructure;
 using AutoSchool.Services;
 using AutoSchool.Services.Abstractions;
 using AutoSchool.Views;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoSchool.ViewModels;
 
@@ -36,6 +33,7 @@ public class TopicSelectionViewModel : BaseViewModel
     private readonly ITopicService _topicService;
 
     public TopicSelectionViewModel() : this(new TopicService()) { }
+
     public TopicSelectionViewModel(ITopicService topicService)
     {
         _topicService = topicService;
@@ -63,19 +61,18 @@ public class TopicSelectionViewModel : BaseViewModel
     {
         if (SelectedTopic == null)
         {
-            MessageBox.Show("Выберите тему.");
+            MessageBox.Show(Loc.T("Msg_SelectTopic"));
             return;
         }
 
         if (SelectedTopic.TicketsCount == 0)
         {
-            MessageBox.Show("По этой теме нет билетов.");
+            MessageBox.Show(Loc.T("Msg_NoTicketsInTopic"));
             return;
         }
 
         var w = new TicketSelectionByTopicWindow(SelectedTopic.Id, SelectedTopic.Name);
         w.Show();
-
         if (parameter is Window currentWindow) currentWindow.Close();
     }
 
